@@ -7,10 +7,9 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "SALON_CHARACTERISTIC")
 public class SalonCharacteristic {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SALON_CHARACTERISTIC_ID", nullable = false)
-    private Long id;
+
+    @EmbeddedId
+    private SalonCharacteristicKey id = new SalonCharacteristicKey();
 
     @MapsId("salonId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -27,11 +26,11 @@ public class SalonCharacteristic {
     @Column(name = "QUANTITY")
     private int quantity;
 
-    public Long getId() {
+    public SalonCharacteristicKey getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(SalonCharacteristicKey id) {
         this.id = id;
     }
 

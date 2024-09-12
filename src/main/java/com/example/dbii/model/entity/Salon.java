@@ -28,7 +28,7 @@ public class Salon {
     @OneToMany(mappedBy = "salon", fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "salon", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "salon", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<SalonCharacteristic> salonCharacteristics = new LinkedHashSet<>();
 
     public Set<SalonCharacteristic> getSalonCharacteristics() {

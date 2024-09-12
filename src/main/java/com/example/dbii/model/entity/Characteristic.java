@@ -16,7 +16,7 @@ public class Characteristic {
     @Column(name = "CHARACTERISTIC_NAME")
     private String characteristicName;
 
-    @OneToMany(mappedBy = "characteristic", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "characteristic", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<SalonCharacteristic> salonCharacteristics = new LinkedHashSet<>();
 
     public Set<SalonCharacteristic> getSalonCharacteristics() {
