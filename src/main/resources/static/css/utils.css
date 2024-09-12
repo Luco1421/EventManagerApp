@@ -1,0 +1,26 @@
+.centroide_col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.centroide_row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.breath {
+    padding: 10px;
+    margin: 10px;
+}
+
+header, footer {
+    background-color: #f2f2f2;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}

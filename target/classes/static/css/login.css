@@ -1,27 +1,6 @@
 /* From Uiverse.io by andrew-demchenk0 */
-.centroide {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-.breath {
-    padding: 10px;
-    margin: 10px;
-}
-
 .space {
     height: 500px;
-}
-
-header {
-    background-color: #f2f2f2;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-content: center;
 }
 
 .wrapper {
@@ -213,12 +192,4 @@ header {
     font-weight: 600;
     color: var(--font-color);
     cursor: pointer;
-}
-
-footer {
-    background-color: #f2f2f2;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-content: center;
 }
