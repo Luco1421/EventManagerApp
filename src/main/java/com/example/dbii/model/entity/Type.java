@@ -1,14 +1,12 @@
 package com.example.dbii.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "\"TYPE\"")
 public class Type {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "TYPE_ID", nullable = false)
     private Long id;
 
