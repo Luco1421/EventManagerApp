@@ -1,34 +1,25 @@
 package com.example.dbii.model.entity;
 
-import jakarta.persistence.*;
-
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-public class Service  implements Serializable {
-    private static final long serialVersionUID = -5264354978540916095L;
-
+@Table(name = "SERVICE")
+public class Service {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @Column(name = "SERVICE_ID", nullable = false)
     private Long id;
 
-    @Column
-    private String name;
+    @Column(name = "SERVICE_NAME")
+    private String serviceName;
 
-    @Column
-    private String description;
+    @Column(name = "SERVICE_DESCRIPTION")
+    private String serviceDescription;
 
-    @Column
-    private Double price;
-
-    @ManyToMany(mappedBy = "services")
-    private Set<Reservation> reservations = new HashSet<>();
-
-    @ManyToMany(mappedBy = "services")
-    private Set<Pack> packs = new HashSet<>();
+    @Column(name = "SERVICE_PRICE")
+    private Long servicePrice;
 
     public Long getId() {
         return id;
@@ -38,68 +29,28 @@ public class Service  implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getServiceDescription() {
+        return serviceDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setServiceDescription(String serviceDescription) {
+        this.serviceDescription = serviceDescription;
     }
 
-    public Double getPrice() {
-        return price;
+    public Long getServicePrice() {
+        return servicePrice;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setServicePrice(Long servicePrice) {
+        this.servicePrice = servicePrice;
     }
 
-    public Set<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(Set<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
-    public Set<Pack> getPacks() {
-        return packs;
-    }
-
-    public void setPacks(Set<Pack> packs) {
-        this.packs = packs;
-    }
-
-    @Override
-    public String toString() {
-        return "Service{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", reservations=" + reservations +
-                ", packs=" + packs +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Service service = (Service) o;
-        return Objects.equals(id, service.id) && Objects.equals(name, service.name) && Objects.equals(description, service.description) && Objects.equals(price, service.price) && Objects.equals(reservations, service.reservations) && Objects.equals(packs, service.packs);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, price, reservations, packs);
-    }
 }

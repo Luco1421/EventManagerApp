@@ -1,54 +1,52 @@
 package com.example.dbii.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
+import java.time.LocalDate;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-public class Reservation implements Serializable {
-    private static final long serialVersionUID = 7262272579910540298L;
-
+@Table(name = "RESERVATION")
+public class Reservation {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO, generator="native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "RESERVATION_ID", nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "salon_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "SALON_ID")
     private Salon salon;
 
-    @ManyToOne
-    @JoinColumn(name = "event_type_id")
-    private EventType eventType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "TYPE_ID")
+    private Type type;
 
-    @ManyToOne
-    @JoinColumn(name = "pack_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "USER_ID")
+    private UserE user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "PACK_ID")
     private Pack pack;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "RESERVATION_STATE")
+    private Long reservationState;
 
-    @Column
-    private String state;
+    @Column(name = "RESERVATION_DATE")
+    private LocalDate reservationDate;
 
-    @Column
-    private Date date;
+    @Column(name = "RESERVATION_PRICE")
+    private Long reservationPrice;
 
-    @Column
-    private Double price;
-
-    @ManyToMany
-    @JoinTable(
-            name = "reservation_service",
-            joinColumns = @JoinColumn(name = "reservation_id"),
-            inverseJoinColumns = @JoinColumn(name = "service_id")
-    )
-
-    private Set<Service> services = new HashSet<>();
+    @ManyToMany(mappedBy = "reservations")
+    private Set<Service> services = new LinkedHashSet<>();
 
     public Long getId() {
         return id;
@@ -66,12 +64,20 @@ public class Reservation implements Serializable {
         this.salon = salon;
     }
 
-    public EventType getEventType() {
-        return eventType;
+    public Type getType() {
+        return type;
     }
 
-    public void setEventType(EventType eventType) {
-        this.eventType = eventType;
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public UserE getUser() {
+        return user;
+    }
+
+    public void setUser(UserE user) {
+        this.user = user;
     }
 
     public Pack getPack() {
@@ -82,36 +88,28 @@ public class Reservation implements Serializable {
         this.pack = pack;
     }
 
-    public User getUser() {
-        return user;
+    public Long getReservationState() {
+        return reservationState;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setReservationState(Long reservationState) {
+        this.reservationState = reservationState;
     }
 
-    public String getState() {
-        return state;
+    public LocalDate getReservationDate() {
+        return reservationDate;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setReservationDate(LocalDate reservationDate) {
+        this.reservationDate = reservationDate;
     }
 
-    public Date getDate() {
-        return date;
+    public Long getReservationPrice() {
+        return reservationPrice;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setReservationPrice(Long reservationPrice) {
+        this.reservationPrice = reservationPrice;
     }
 
     public Set<Service> getServices() {
@@ -122,31 +120,4 @@ public class Reservation implements Serializable {
         this.services = services;
     }
 
-    @Override
-    public String toString() {
-        return "Reservation{" +
-                "id=" + id +
-                ", salon=" + salon +
-                ", eventType=" + eventType +
-                ", pack=" + pack +
-                ", user=" + user +
-                ", state='" + state + '\'' +
-                ", date=" + date +
-                ", price=" + price +
-                ", services=" + services +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Reservation that = (Reservation) o;
-        return Objects.equals(id, that.id) && Objects.equals(salon, that.salon) && Objects.equals(eventType, that.eventType) && Objects.equals(pack, that.pack) && Objects.equals(user, that.user) && Objects.equals(state, that.state) && Objects.equals(date, that.date) && Objects.equals(price, that.price) && Objects.equals(services, that.services);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, salon, eventType, pack, user, state, date, price, services);
-    }
 }

@@ -2,70 +2,65 @@ package com.example.dbii.model.entity;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-public class Pack implements Serializable {
-    private static final long serialVersionUID = 1671508238369069884L;
-
+@Table(name = "PACK")
+public class Pack {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PACK_ID", nullable = false)
+    private Long id;
 
-    @Column
-    private String name;
+    @Column(name = "PACK_NAME")
+    private String packName;
 
-    @Column
-    private String description;
+    @Column(name = "PACK_DESCRIPTION")
+    private String packDescription;
 
-    @Column
-    private Double price;
+    @Column(name = "PACK_PRICE")
+    private Long packPrice;
 
     @ManyToMany
-    @JoinTable(
-            name = "pack_service",
-            joinColumns = @JoinColumn(name = "pack_id"),
-            inverseJoinColumns = @JoinColumn(name = "service_id")
-    )
+    @JoinTable(name = "PACK_SERVICE",
+            joinColumns = @JoinColumn(name = "PACK_ID"),
+            inverseJoinColumns = @JoinColumn(name = "SERVICE_ID"))
+    private Set<Service> services = new LinkedHashSet<>();
 
-    private Set<Service> services = new HashSet<>();
+    @OneToMany(mappedBy = "pack")
+    private Set<Reservation> reservations = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "pack", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Reservation> reservations = new HashSet<>();
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getPackName() {
+        return packName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPackName(String packName) {
+        this.packName = packName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getPackDescription() {
+        return packDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPackDescription(String packDescription) {
+        this.packDescription = packDescription;
     }
 
-    public Double getPrice() {
-        return price;
+    public Long getPackPrice() {
+        return packPrice;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPackPrice(Long packPrice) {
+        this.packPrice = packPrice;
     }
 
     public Set<Service> getServices() {
@@ -84,28 +79,4 @@ public class Pack implements Serializable {
         this.reservations = reservations;
     }
 
-    @Override
-    public String toString() {
-        return "Pack{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", services=" + services +
-                ", reservations=" + reservations +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pack pack = (Pack) o;
-        return id == pack.id && Objects.equals(name, pack.name) && Objects.equals(description, pack.description) && Objects.equals(price, pack.price) && Objects.equals(services, pack.services) && Objects.equals(reservations, pack.reservations);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, price, services, reservations);
-    }
 }
