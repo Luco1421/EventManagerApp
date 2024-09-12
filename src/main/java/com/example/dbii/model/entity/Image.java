@@ -13,6 +13,18 @@ public class Image {
     @Column(name = "URL")
     private String url;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SALON_ID")
+    private Salon salon;
+
+    public Salon getSalon() {
+        return salon;
+    }
+
+    public void setSalon(Salon salon) {
+        this.salon = salon;
+    }
+
     public Long getId() {
         return id;
     }

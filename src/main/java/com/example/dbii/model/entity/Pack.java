@@ -2,6 +2,9 @@ package com.example.dbii.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "PACK")
 public class Pack {
@@ -18,6 +21,31 @@ public class Pack {
 
     @Column(name = "PACK_PRICE")
     private Long packPrice;
+
+    @ManyToMany
+    @JoinTable(name = "PACK_SERVICE",
+            joinColumns = @JoinColumn(name = "PACK_ID"),
+            inverseJoinColumns = @JoinColumn(name = "SERVICE_ID"))
+    private Set<Service> services = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "pack")
+    private Set<Reservation> reservations = new LinkedHashSet<>();
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public Set<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(Set<Service> services) {
+        this.services = services;
+    }
 
     public Long getId() {
         return id;

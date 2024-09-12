@@ -2,6 +2,9 @@ package com.example.dbii.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "SALON")
 public class Salon {
@@ -18,6 +21,28 @@ public class Salon {
 
     @Column(name = "MAX_CAPACITY")
     private Long maxCapacity;
+
+    @OneToMany(mappedBy = "salon")
+    private Set<Image> images = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "salon")
+    private Set<Reservation> reservations = new LinkedHashSet<>();
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<Image> images) {
+        this.images = images;
+    }
 
     public Long getId() {
         return id;
