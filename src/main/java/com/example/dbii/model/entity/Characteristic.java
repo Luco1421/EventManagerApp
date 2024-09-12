@@ -2,6 +2,9 @@ package com.example.dbii.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "CHARACTERISTIC")
 public class Characteristic {
@@ -12,6 +15,17 @@ public class Characteristic {
 
     @Column(name = "CHARACTERISTIC_NAME")
     private String characteristicName;
+
+    @OneToMany(mappedBy = "characteristic")
+    private Set<SalonCharacteristic> salonCharacteristics = new LinkedHashSet<>();
+
+    public Set<SalonCharacteristic> getSalonCharacteristics() {
+        return salonCharacteristics;
+    }
+
+    public void setSalonCharacteristics(Set<SalonCharacteristic> salonCharacteristics) {
+        this.salonCharacteristics = salonCharacteristics;
+    }
 
     public Long getId() {
         return id;

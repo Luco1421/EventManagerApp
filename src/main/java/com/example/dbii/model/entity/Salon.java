@@ -28,6 +28,17 @@ public class Salon {
     @OneToMany(mappedBy = "salon")
     private Set<Reservation> reservations = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "salon")
+    private Set<SalonCharacteristic> salonCharacteristics = new LinkedHashSet<>();
+
+    public Set<SalonCharacteristic> getSalonCharacteristics() {
+        return salonCharacteristics;
+    }
+
+    public void setSalonCharacteristics(Set<SalonCharacteristic> salonCharacteristics) {
+        this.salonCharacteristics = salonCharacteristics;
+    }
+
     public Set<Reservation> getReservations() {
         return reservations;
     }
