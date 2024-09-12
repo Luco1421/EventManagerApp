@@ -9,7 +9,7 @@ import java.util.Set;
 @Table(name = "SALON")
 public class Salon {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SALON_ID", nullable = false)
     private Long id;
 
@@ -22,13 +22,13 @@ public class Salon {
     @Column(name = "MAX_CAPACITY")
     private Long maxCapacity;
 
-    @OneToMany(mappedBy = "salon")
+    @OneToMany(mappedBy = "salon", fetch = FetchType.LAZY)
     private Set<Image> images = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "salon")
+    @OneToMany(mappedBy = "salon", fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "salon")
+    @OneToMany(mappedBy = "salon", fetch = FetchType.LAZY)
     private Set<SalonCharacteristic> salonCharacteristics = new LinkedHashSet<>();
 
     public Set<SalonCharacteristic> getSalonCharacteristics() {

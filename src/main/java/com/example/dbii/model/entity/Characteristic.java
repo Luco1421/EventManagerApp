@@ -9,14 +9,14 @@ import java.util.Set;
 @Table(name = "CHARACTERISTIC")
 public class Characteristic {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CHARACTERISTIC_ID", nullable = false)
     private Long id;
 
     @Column(name = "CHARACTERISTIC_NAME")
     private String characteristicName;
 
-    @OneToMany(mappedBy = "characteristic")
+    @OneToMany(mappedBy = "characteristic", fetch = FetchType.LAZY)
     private Set<SalonCharacteristic> salonCharacteristics = new LinkedHashSet<>();
 
     public Set<SalonCharacteristic> getSalonCharacteristics() {

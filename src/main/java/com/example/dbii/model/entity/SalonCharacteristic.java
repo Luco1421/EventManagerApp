@@ -8,7 +8,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "SALON_CHARACTERISTIC")
 public class SalonCharacteristic {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SALON_CHARACTERISTIC_ID", nullable = false)
     private Long id;
 

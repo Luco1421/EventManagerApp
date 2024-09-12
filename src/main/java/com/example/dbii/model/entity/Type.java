@@ -9,14 +9,14 @@ import java.util.Set;
 @Table(name = "\"TYPE\"")
 public class Type {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TYPE_ID", nullable = false)
     private Long id;
 
     @Column(name = "TYPE_NAME")
     private String typeName;
 
-    @OneToMany(mappedBy = "type")
+    @OneToMany(mappedBy = "type", fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new LinkedHashSet<>();
 
     public Set<Reservation> getReservations() {

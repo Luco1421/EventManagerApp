@@ -9,7 +9,7 @@ import java.util.Set;
 @Table(name = "PACK")
 public class Pack {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PACK_ID", nullable = false)
     private Long id;
 
@@ -22,13 +22,13 @@ public class Pack {
     @Column(name = "PACK_PRICE")
     private Long packPrice;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "PACK_SERVICE",
             joinColumns = @JoinColumn(name = "PACK_ID"),
             inverseJoinColumns = @JoinColumn(name = "SERVICE_ID"))
     private Set<Service> services = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "pack")
+    @OneToMany(mappedBy = "pack", fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new LinkedHashSet<>();
 
     public Set<Reservation> getReservations() {

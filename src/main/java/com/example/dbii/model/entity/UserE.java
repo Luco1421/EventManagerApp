@@ -9,7 +9,7 @@ import java.util.Set;
 @Table(name = "USERE")
 public class UserE {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID", nullable = false)
     private Long id;
 
@@ -31,7 +31,7 @@ public class UserE {
     @Column(name = "ISEMPLOYEE")
     private Long isemployee;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new LinkedHashSet<>();
 
     public Set<Reservation> getReservations() {

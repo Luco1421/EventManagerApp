@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name = "RESERVATION")
 public class Reservation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RESERVATION_ID", nullable = false)
     private Long id;
 
@@ -30,7 +30,7 @@ public class Reservation {
     @Column(name = "RESERVATION_PRICE")
     private Long reservationPrice;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "RESERVATION_SERVICE",
             joinColumns = @JoinColumn(name = "RESERVATION_ID"),
             inverseJoinColumns = @JoinColumn(name = "SERVICE_ID"))
