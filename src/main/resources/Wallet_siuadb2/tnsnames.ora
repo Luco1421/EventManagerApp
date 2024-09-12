@@ -1,0 +1,12 @@
+siuadb2_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=aezf815lxktrnnk_siuadb2_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+siuadb2_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=aezf815lxktrnnk_siuadb2_low.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+siuadb2_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=aezf815lxktrnnk_siuadb2_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+siuadb2_tp = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=aezf815lxktrnnk_siuadb2_tp.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+siuadb2_tpurgent = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=aezf815lxktrnnk_siuadb2_tpurgent.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+
+
