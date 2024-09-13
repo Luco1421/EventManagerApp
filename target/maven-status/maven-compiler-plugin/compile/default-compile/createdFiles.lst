@@ -1,0 +1,12 @@
+com\example\dbii\controller\UserController.class
+com\example\dbii\model\entity\Service.class
+com\example\dbii\model\entity\SalonCharacteristic.class
+com\example\dbii\model\entity\Image.class
+com\example\dbii\model\entity\UserE.class
+com\example\dbii\model\entity\Salon.class
+com\example\dbii\model\entity\SalonCharacteristicKey.class
+com\example\dbii\model\entity\Type.class
+com\example\dbii\model\entity\Pack.class
+com\example\dbii\EventManagerAppApplication.class
+com\example\dbii\model\entity\Characteristic.class
+com\example\dbii\model\entity\Reservation.class
