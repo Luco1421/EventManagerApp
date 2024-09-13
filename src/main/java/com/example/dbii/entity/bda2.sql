@@ -85,3 +85,15 @@ CREATE TABLE Reservation_Service (
     FOREIGN KEY (reservation_id) REFERENCES Reservation(reservation_id),
     FOREIGN KEY (service_id) REFERENCES Service(service_id)
 );
+
+INSERT INTO Type(type_name) VALUES ('Aniversaio de boda');
+INSERT INTO Type(type_name) VALUES ('Baby Shower');
+INSERT INTO Type(type_name) VALUES ('Boda');
+INSERT INTO Type(type_name) VALUES ('Cena');
+INSERT INTO Type(type_name) VALUES ('Cincuentaños');
+INSERT INTO Type(type_name) VALUES ('Cumpleaños');
+INSERT INTO Type(type_name) VALUES ('Evento');
+INSERT INTO Type(type_name) VALUES ('Fiesta');
+INSERT INTO Type(type_name) VALUES ('Graduacion');
+INSERT INTO Type(type_name) VALUES ('Quinceaños');
+
