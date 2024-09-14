@@ -29,10 +29,7 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
     border: 1px solid black;
-    margin-bottom: 2px;
 }
 
 .logo {
