@@ -11,15 +11,16 @@ public class UserController {
     @Autowired
     UserEService userEService;
 
-    @GetMapping({"/", "/login"})
+    @GetMapping("/login")
     public String getLogin() {
         return "login";
     }
 
-    @GetMapping("/home")
+    @GetMapping({"/", "/home"})
     public String getHome() {
         return "home";
     }
+
 
 
 }

@@ -3,24 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Event's _</title>
-    <link rel="stylesheet" th:href="@{/css/reset.css}">
-    <link rel="stylesheet" th:href="@{/css/utils.css}">
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
     <header>
-        <div class="breath">
-            This is a test of a home page, main view of salon images.
-        </div>
+        <nav class="navbar">
+                <h3 class="navLogo">
+                    Eventos Carnival
+                </h3>
+                <ul>
+                    <li>
+                        <a href="/">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/login">
+                            Log in
+                        </a>
+                    </li>
+                </ul>
+        </nav>
     </header>
-    <div class="centroide_col">
-        <div>
-            TEST
-        </div>
+    <div class="mainContainer">
+            <img class="mainImage" src="assets/ovation.png">
+            <div class="mainText">
+                <h1 class="pregunta">
+                    Necesita un salón?
+                </h1> 
+                <p class="mainYap">
+                    Ya sea para un cumpleaños, boda o graduación, le ofrecemos una gran variedad de salones, perfectos para cualquier tipo de evento.
+                </p>
+            </div>
     </div>
-    <footer>
-        TEST.
-    </footer>
 </body>
 
 </html>
