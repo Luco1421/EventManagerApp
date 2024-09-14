@@ -28,7 +28,6 @@ public class UserEService {
         user.setIsEmployee(false);
 
         userRepository.save(user);
-        userRepository.flush();
     }
 
     public int processLogin(String email, String password) {
