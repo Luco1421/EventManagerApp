@@ -1,84 +1,28 @@
-body {
-    background-color: hsl(0, 0%, 25%);
-    display: flex;
-    flex-direction: column;
-}
-
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #333;
-    color: white;
-}
-
-.navLogo {
-    font-family: Arial;
-}
-
-
-.navbar ul {
-    list-style-type: none;
-    background-color: hsl(0, 0%, 25%);
-    padding: 0px;
-    margin: 0px;
-    overflow: hidden;
-}
-
-.navbar a {
-    color: white;
-    text-decoration: none;
-    padding: 15px;
-    display: block;
-    text-align: center;
-    font-family: Arial, sans-serif;
-}
-
-.navbar a:hover {
-    background-color: hsl(0, 0%, 10%);
-}
-
-
-.navbar li {
-    float: left;
-}
-
-.mainContainer {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-content: center;
-}
-
 .mainImage {
     flex: 1;
+    box-shadow: 10px 0 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin-top: 1px;
 }
 
 .mainText {
     display: flex;
     flex-direction: column;
     color:white;
-    flex: 1;
-    border-top: 2px groove rgb(71,71,71);
-    border-bottom: 2px groove rgb(71,71,71);
+    flex: 0.7;
     align-items: center;
     justify-content: center;
-
-}
-
-.mainYap {
-    font-family: monospace;
-    padding: 10px;
 }
 
 .pregunta {
     font-family: monospace;
     font-size: 50px;
+    margin-bottom: 20px;
 }
 
-.homeTitle {
-    display: flex;
-    justify-content: center;
-    align-content: center;
+.mainYap {
+    font-family: monospace;
+    font-size: 15px;
+    width: 500px;
+    text-align: center;
 }

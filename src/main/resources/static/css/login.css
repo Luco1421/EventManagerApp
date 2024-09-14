@@ -5,11 +5,12 @@
 
 .wrapper {
     --input-focus: #2d8cf0;
-    --font-color: #323232;
-    --font-color-sub: #666;
-    --bg-color: #fff;
-    --bg-color-alt: #666;
-    --main-color: #323232;
+    --font-color: #ffffff;
+    --font-color-sub: #ffffff;
+    --bg-color: #333333;
+    --bg-color-alt: #000000;
+    --main-color: #000000;
+    transform: scale(1.35);
 }
 /* switch card */
 .switch {
@@ -125,7 +126,7 @@
     justify-content: center;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    background: lightgrey;
+    background: #555555;
     gap: 20px;
     border-radius: 5px;
     border: 2px solid var(--main-color);
@@ -149,7 +150,7 @@
     font-size: 25px;
     font-weight: 900;
     text-align: center;
-    color: var(--main-color);
+    color: #ffffff;
 }
 
 .flip-card__input {
@@ -194,7 +195,20 @@
     cursor: pointer;
 }
 
+.flip-card__btn:hover {
+    background-color: var(--input-focus);
+}
+
 .error {
     color: red;
     font-family: Consolas;
+    font-weight: bold;
+}
+
+.mostrar {
+    cursor: pointer;
+}
+
+.mostrar:hover {
+    color: #2d8cf0;
 }
