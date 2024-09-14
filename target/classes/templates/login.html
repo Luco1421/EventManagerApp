@@ -1,57 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-ES" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event's _</title>
+    <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet" />
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/utils.css}">
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
-    <header>
-        <div class="breath">
-            This is a test of a login page, btw the principal page.
-        </div>
-    </header>
-    <div class="centroide_col">
-        <br>
-        <div class="breath">
-            <div class="wrapper">
-                <div class="card-switch">
-                    <label class="switch">
-                        <input type="checkbox" class="toggle">
-                        <span class="slider"></span>
-                        <span class="card-side"></span>
-                        <div class="flip-card__inner">
-                            <div class="flip-card__front">
-                                <div class="title">Log in</div>
-                                <form class="flip-card__form" action="">
-                                    <input class="flip-card__input" name="email" placeholder="Email" type="email">
-                                    <input class="flip-card__input" name="password" placeholder="Password" type="password">
-                                    <button class="flip-card__btn">Let`s go!</button>
-                                </form>
-                            </div>
-                            <div class="flip-card__back">
-                                <div class="title">Sign up</div>
-                                <form class="flip-card__form" action="">
-                                    <input class="flip-card__input" placeholder="Name" type="name">
-                                    <input class="flip-card__input" name="email" placeholder="Email" type="email">
-                                    <input class="flip-card__input" name="password" placeholder="Password" type="password">
-                                    <button class="flip-card__btn">Confirm!</button>
-                                </form>
-                            </div>
+<header>
+    <div class="breath">
+        This is a test of a login page, btw the principal page.
+    </div>
+</header>
+
+<div class="centroide_col">
+    <br>
+    <div class="breath">
+        <div class="wrapper">
+            <div class="card-switch">
+                <label class="switch">
+                    <input type="checkbox" class="toggle">
+                    <span class="slider"></span>
+                    <span class="card-side"></span>
+                    <div class="flip-card__inner">
+                        <div class="flip-card__front">
+                            <div class="title">Iniciar Sesión</div>
+                            <form class="flip-card__form" th:action="@{/rlogin}" method="post">
+                                <input class="flip-card__input" name="email" placeholder="Correo electrónico" type="email" required>
+                                <input class="flip-card__input" name="password" placeholder="Contraseña" type="password" required>
+                                <button class="flip-card__btn" type="submit">Ingresar</button>
+                            </form>
+                            <p class="error" th:if="${loginError}" th:text="${loginError}"></p>
                         </div>
-                    </label>
-                </div>
+                        <div class="flip-card__back">
+                            <div class="title">Registrarse</div>
+                            <p class="error" th:if="${registrationError}" th:text="${registrationError}"></p>
+                            <form class="flip-card__form" th:action="@{/rsignup}" method="post">
+                                <input class="flip-card__input" name="name" placeholder="Nombre" type="text" required>
+                                <input class="flip-card__input" name="last_name" placeholder="Apellido" type="text" required>
+                                <input class="flip-card__input" name="phone" placeholder="Teléfono" type="text" required>
+                                <input class="flip-card__input" name="email" placeholder="Correo electrónico" type="email" required>
+                                <input class="flip-card__input" name="password" placeholder="Contraseña" type="password" required>
+                                <button class="flip-card__btn" type="submit">Confirmar</button>
+                            </form>
+                        </div>
+                    </div>
+                </label>
             </div>
         </div>
-        <div class="space">
-
-        </div>
     </div>
-    <footer>
-        TEST.
-    </footer>
-</body>
+    <div class="space"></div>
+</div>
 
+<footer>
+    TEST.
+</footer>
+
+<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
 </html>

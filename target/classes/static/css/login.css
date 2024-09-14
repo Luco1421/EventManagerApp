@@ -25,8 +25,8 @@
 
 .card-side::before {
     position: absolute;
-    content: 'Log in';
-    left: -70px;
+    content: 'Iniciar Sesión';
+    left: -115px;
     top: 0;
     width: 100px;
     text-decoration: underline;
@@ -36,7 +36,7 @@
 
 .card-side::after {
     position: absolute;
-    content: 'Sign up';
+    content: 'Registrarse';
     left: 70px;
     top: 0;
     width: 100px;
@@ -192,4 +192,9 @@
     font-weight: 600;
     color: var(--font-color);
     cursor: pointer;
+}
+
+.error {
+    color: red;
+    font-family: Consolas;
 }

@@ -1,6 +1,9 @@
 package com.example.dbii.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -13,23 +16,23 @@ public class UserE {
     @Column(name = "USER_ID", nullable = false)
     private Long id;
 
-    @Column(name = "USER_NAME")
+    @Column(name = "USER_NAME", nullable = false)
     private String userName;
 
-    @Column(name = "LAST_NAME")
+    @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
 
-    @Column(name = "PHONE")
+    @Column(name = "PHONE", nullable = false)
     private Long phone;
 
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
 
     @Column(name = "ISEMPLOYEE")
-    private Long isemployee;
+    private boolean isEmployee;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new LinkedHashSet<>();
@@ -90,12 +93,12 @@ public class UserE {
         this.password = password;
     }
 
-    public Long getIsemployee() {
-        return isemployee;
+    public boolean getIsEmployee() {
+        return isEmployee;
     }
 
-    public void setIsemployee(Long isemployee) {
-        this.isemployee = isemployee;
+    public void setIsEmployee(boolean isEmployee) {
+        this.isEmployee = isEmployee;
     }
 
 }
