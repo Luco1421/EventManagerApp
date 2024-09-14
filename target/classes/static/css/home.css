@@ -1,11 +1,15 @@
 .mainImage {
     flex: 1;
+    box-shadow: 10px 0 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin-top: 1px;
 }
 
 .mainText {
     display: flex;
     flex-direction: column;
     color:white;
+    flex: 0.7;
     align-items: center;
     justify-content: center;
 }
@@ -13,11 +17,13 @@
 .pregunta {
     font-family: monospace;
     font-size: 50px;
-    text-align: center;
     margin-bottom: 20px;
 }
 
 .mainYap {
     font-family: monospace;
+    font-size: 15px;
+    width: 500px;
     text-align: center;
+    justify-content: center;
 }
