@@ -15,9 +15,9 @@ public class UserEService {
     UserERepository userRepository;
 
     @Transactional
-    public void registerUser(String name, String lastName, Long phone, String email, String password) throws Exception {
+    public boolean registerUser(String name, String lastName, Long phone, String email, String password) {
         if (userRepository.findByEmail(email).isPresent()) {
-            throw new Exception("Ya existe una cuenta registrada a este email");
+            return false;
         }
         UserE user = new UserE();
         user.setUserName(name);
@@ -28,6 +28,7 @@ public class UserEService {
         user.setIsEmployee(false);
 
         userRepository.save(user);
+        return true;
     }
 
     public int processLogin(String email, String password) {

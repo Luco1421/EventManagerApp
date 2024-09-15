@@ -39,6 +39,7 @@
                         <div class="flip-card__front">
                             <div class="title">Iniciar Sesión</div>
                             <p class="error" th:if="${loginError}" th:text="${loginError}"></p>
+                            <p class="error" th:if="${registrationError}" th:text="${registrationError}"></p>
                             <form class="flip-card__form" th:action="@{/rlogin}" method="post">
                                 <input class="flip-card__input" name="email" placeholder="Correo electrónico" type="email" required>
                                 <input id="mostrar" class="flip-card__input" name="password" placeholder="Contraseña" type="password" required>
@@ -48,7 +49,6 @@
                         </div>
                         <div class="flip-card__back">
                             <div class="title">Registrarse</div>
-                            <p class="error" th:if="${registrationError}" th:text="${registrationError}"></p>
                             <form class="flip-card__form" th:action="@{/rsignup}" method="post">
                                 <input class="flip-card__input" name="name" placeholder="Nombre" type="text" required>
                                 <input class="flip-card__input" name="last_name" placeholder="Apellido" type="text" required>

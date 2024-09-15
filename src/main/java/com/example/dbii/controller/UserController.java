@@ -15,10 +15,14 @@ public class UserController {
     private UserEService userService;
 
     @GetMapping("login")
-    public String login() { return "login"; }
+    public String login() {
+        return "login";
+    }
 
     @GetMapping({"/", "/home"})
-    public String home() { return "home"; }
+    public String home() {
+        return "home";
+    }
 
     @PostMapping("/rsignup")
     public String registerUser(@RequestParam("name") String name,
@@ -27,13 +31,9 @@ public class UserController {
                                @RequestParam("email") String email,
                                @RequestParam("password") String password,
                                Model model) {
-        try {
-            userService.registerUser(name, lastName, phone, email, password);
-            return "redirect:/login";
-        } catch (Exception e) {
-            model.addAttribute("registrationError", e.getMessage());
-            return "redirect:/login";
-        }
+        if (userService.registerUser(name, lastName, phone, email, password)) return "redirect:/login";
+        else model.addAttribute("registrationError", "Ya existe una cuenta asociada a este correo");
+        return "login";
     }
 
     @PostMapping("/rlogin")
