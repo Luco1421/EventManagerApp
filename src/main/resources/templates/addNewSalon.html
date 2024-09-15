@@ -8,7 +8,6 @@
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/utils.css}">
     <link rel="stylesheet" th:href="@{/css/login.css}">
-    <link rel="stylesheet" th:href="@{/css/addNewSalon.css}">
 </head>
 <body>
 <header>
@@ -35,7 +34,7 @@
                     <div class="flip-card__inner">
                         <div class="flip-card__front">
                             <div class="title">Añadir salón</div>
-                            <p class="error" th:if="${addError}" th:text="${addError}"></p>
+                            <p class="error" th:if="${errorAdd}" th:text="${errorAdd}"></p>
                             <form class="flip-card__form" th:action="@{/newSalon}" method="post">
                                 <input class="flip-card__input" name="name" placeholder="Nombre del salón" type="text" required>
                                 <input class="flip-card__input" name="location" placeholder="Ubicación del salón" type="text" required>

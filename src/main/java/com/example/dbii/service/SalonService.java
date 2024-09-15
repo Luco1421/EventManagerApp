@@ -1,5 +1,6 @@
 package com.example.dbii.service;
 
+import com.example.dbii.Errors;
 import com.example.dbii.entity.Salon;
 import com.example.dbii.repository.SalonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,9 @@ public class SalonService {
     private SalonRepository salonRepository;
 
     @Transactional
-    public void addSalon(String name, String location, Long maxCapacity) throws Exception {
+    public boolean addSalon(String name, String location, Long maxCapacity) {
         if (salonRepository.findBySalonNameAndLocation(name, location).isPresent()) {
-            throw new Exception("Ya este salón está registrado");
+            return false;
         }
         Salon salon = new Salon();
         salon.setSalonName(name);
@@ -25,6 +26,7 @@ public class SalonService {
         salon.setMaxCapacity(maxCapacity);
 
         salonRepository.save(salon);
+        return true;
     }
 
     @Transactional
