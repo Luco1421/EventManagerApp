@@ -6,9 +6,10 @@
     display: flex;
     flex-direction: column;
     color:white;
-    flex: 0.7;
+    flex: 1;
     align-items: center;
     justify-content: center;
+    padding: 10px;
 }
 
 .pregunta {
@@ -23,4 +24,5 @@
     font-size: 15px;
     text-align: center;
     justify-content: center;
+    padding: 15px;
 }
