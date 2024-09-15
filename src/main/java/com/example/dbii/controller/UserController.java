@@ -24,6 +24,11 @@ public class UserController {
         return "home";
     }
 
+    @GetMapping("confirmation")
+    public String confirmation() {
+        return "confirmation";
+    }
+
     @PostMapping("/rsignup")
     public String registerUser(@RequestParam("name") String name,
                                @RequestParam("last_name") String lastName,

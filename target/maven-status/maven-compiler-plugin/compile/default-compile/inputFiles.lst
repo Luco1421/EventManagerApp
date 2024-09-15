@@ -1,4 +1,6 @@
 /Users/emanuelrs101/EventManagerApp/src/main/java/com/example/dbii/EventManagerAppApplication.java
+/Users/emanuelrs101/EventManagerApp/src/main/java/com/example/dbii/controller/ReservationController.java
+/Users/emanuelrs101/EventManagerApp/src/main/java/com/example/dbii/controller/SalonController.java
 /Users/emanuelrs101/EventManagerApp/src/main/java/com/example/dbii/controller/UserController.java
 /Users/emanuelrs101/EventManagerApp/src/main/java/com/example/dbii/entity/Characteristic.java
 /Users/emanuelrs101/EventManagerApp/src/main/java/com/example/dbii/entity/Image.java
@@ -18,4 +20,6 @@
 /Users/emanuelrs101/EventManagerApp/src/main/java/com/example/dbii/repository/ServiceRepository.java
 /Users/emanuelrs101/EventManagerApp/src/main/java/com/example/dbii/repository/TypeRepository.java
 /Users/emanuelrs101/EventManagerApp/src/main/java/com/example/dbii/repository/UserERepository.java
+/Users/emanuelrs101/EventManagerApp/src/main/java/com/example/dbii/service/ReservationService.java
+/Users/emanuelrs101/EventManagerApp/src/main/java/com/example/dbii/service/SalonService.java
 /Users/emanuelrs101/EventManagerApp/src/main/java/com/example/dbii/service/UserEService.java
