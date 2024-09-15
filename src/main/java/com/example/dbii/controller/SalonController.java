@@ -20,6 +20,9 @@ public class SalonController {
     @GetMapping("/addSalon")
     public String addSalon() { return "addNewSalon"; }
 
+    @GetMapping("/editSalon")
+    public String editSalon() { return "editSalon"; }
+
     @PostMapping("/newSalon")
     public String newSalon(@RequestParam("name") String name,
                                @RequestParam("location") String location,
