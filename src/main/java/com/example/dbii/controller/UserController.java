@@ -24,7 +24,7 @@ public class UserController {
         return "home";
     }
 
-    @GetMapping("confirmation")
+    @GetMapping("/confirmation")
     public String confirmation() {
         return "confirmation";
     }
