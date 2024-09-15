@@ -27,13 +27,9 @@
 </header>
 <div class="centroide_col">
   <br>
-  <div class="searchBox">
-
-    <input class="searchInput" type="text" name="" placeholder="Search something">
-    <button class="searchButton" href="#">
-
-
-
+  <form class="searchBox" th:action="@{/search}" method="post">
+    <input class="searchInput" type="text" name="nombre" placeholder="Nombre del salón" required>
+    <button class="searchButton" type="submit">
       <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none">
         <g clip-path="url(#clip0_2_17)">
           <g filter="url(#filter0_d_2_17)">
@@ -56,11 +52,25 @@
           </clipPath>
         </defs>
       </svg>
-
-
     </button>
+  </form>
+</div>
+
+<div class="container mt-4" th:if="${!#strings.isEmpty(researchName)}">
+  <h2 class="resultText"> Resultados de la búsqueda: <span th:text="${researchName}"></span></h2>
+  <div class="results-container">
+    <div th:if="${#lists.isEmpty(results)}">
+      <p>No se encontraron resultados para "<span th:text="${researchName}"></span>".</p>
+    </div>
+    <div th:each="salon:${results}" class="notification">
+      <div class="notiglow"></div>
+      <div class="notiborderglow"></div>
+      <div class="notititle" th:text="${salon.salonName}"></div>
+      <div class="notibody" th:text="${salon.location}"></div>
+    </div>
   </div>
 </div>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>
