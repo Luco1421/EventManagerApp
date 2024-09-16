@@ -19,6 +19,11 @@ public class UserController {
         return "login";
     }
 
+    @GetMapping("/catalogView")
+    public String catalogView() {
+        return "catalogView";
+    }
+
     @GetMapping({"/", "/home"})
     public String home() {
         return "home";
