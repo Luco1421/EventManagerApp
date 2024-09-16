@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -26,6 +26,13 @@ public class SalonController {
 
     @GetMapping("/editSalon")
     public String editSalon() { return "editSalon"; }
+
+    @GetMapping("/updateSalon/{id}")
+    public String updateSalon(@PathVariable Long id, Model model) {
+        Salon salon = salonService.getSalonById(id);
+        model.addAttribute("salon", salon);
+        return "updateSalon";
+    }
 
     @PostMapping("/newSalon")
     public String newSalon(@RequestParam("name") String name,

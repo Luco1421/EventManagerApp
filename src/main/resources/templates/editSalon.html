@@ -72,7 +72,7 @@
       <div class="notiborderglow"></div>
       <div class="notititle" th:text="${salon.salonName}"></div>
       <div class="notibody" th:text="${salon.location}"></div>
-      <a class="notibody breath" href="/updateSalon"> Editar </a>
+      <a class="notibody breath" th:href="@{/updateSalon/{id}(id=${salon.id})}"> Editar </a>
     </div>
   </div>
 </div>

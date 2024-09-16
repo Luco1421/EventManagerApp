@@ -10,8 +10,8 @@ import java.util.Set;
 
 @Repository
 public interface SalonRepository extends JpaRepository<Salon, Long> {
+    Optional<Salon> findBySalonNameAndLocation(String name, String location);
     @Query(value = "SELECT * FROM Salon WHERE Salon.SALON_NAME LIKE %:name% or UTL_MATCH.EDIT_DISTANCE(Salon.SALON_NAME, :name) < 15", nativeQuery = true)
     Set<Salon> findLikeNameSound(String name);
-    Optional<Salon> findBySalonNameAndLocation(String name, String location);
-
+    Optional<Salon> findById(Long id);
 }

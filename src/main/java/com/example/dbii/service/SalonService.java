@@ -28,6 +28,11 @@ public class SalonService {
         return true;
     }
 
+    public Salon getSalonById(Long id) {
+        Salon salon = salonRepository.findById(id).get();
+        return salon;
+    }
+
     public Set<Salon> getSalonByName(String name) {
         return salonRepository.findLikeNameSound(name);
     }
