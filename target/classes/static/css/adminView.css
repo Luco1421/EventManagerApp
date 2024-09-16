@@ -9,6 +9,11 @@
     justify-content: space-around;
     a {
         width: 15%;
-        align-content: center;
+        text-decoration: none;
     }
+}
+
+.icon {
+    width: 5rem;
+    margin-bottom: 5px;
 }

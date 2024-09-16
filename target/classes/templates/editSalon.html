@@ -67,11 +67,12 @@
     <div th:if="${#lists.isEmpty(results)}">
       <p>No se encontraron resultados para "<span th:text="${researchName}"></span>".</p>
     </div>
-    <div th:each="salon:${results}" class="notification">
+    <div  th:each="salon:${results}" class="notification">
       <div class="notiglow"></div>
       <div class="notiborderglow"></div>
       <div class="notititle" th:text="${salon.salonName}"></div>
       <div class="notibody" th:text="${salon.location}"></div>
+      <a class="notibody breath" href="/updateSalon"> Editar </a>
     </div>
   </div>
 </div>

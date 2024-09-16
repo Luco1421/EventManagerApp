@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class SalonController {
@@ -39,30 +40,9 @@ public class SalonController {
     @PostMapping("/search")
     public String search(@RequestParam("nombre") String nombre,
                          Model model) {
-
-        Salon s1 = new Salon();
-        Salon s2 = new Salon();
-        Salon s3 = new Salon();
-
-        s1.setSalonName("Salón de Eventos Las Rosas");
-        s1.setLocation("Un salón amplio y moderno.");
-        s1.setMaxCapacity(200L);
-
-        s2.setSalonName("Salón La Estrella");
-        s2.setLocation("Perfecto para bodas y eventos grandes.");
-        s2.setMaxCapacity(300L);
-
-        s3.setSalonName("Salón El Sol");
-        s3.setLocation("Ideal para eventos pequeños.");
-        s3.setMaxCapacity(100L);
-
-        List<Salon> salons = List.of(
-                s1,s2,s3,s3,s1,s2,s3,s3
-        );
-
+        Set<Salon> salons = salonService.getSalonByName(nombre);
         model.addAttribute("results", salons);
         model.addAttribute("researchName", nombre);
-
         return "editSalon";
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 @Service
 public class SalonService {
 
@@ -26,8 +28,12 @@ public class SalonService {
         return true;
     }
 
+    public Set<Salon> getSalonByName(String name) {
+        return salonRepository.findLikeNameSound(name);
+    }
+
     @Transactional
-    public void deleteSalon(String name, String location, Long maxCapacity) throws Exception {
+    public void deleteSalon(String name, String location) throws Exception {
         if (!salonRepository.findBySalonNameAndLocation(name, location).isPresent()) {
             throw new Exception("Este salón no existe");
         }
