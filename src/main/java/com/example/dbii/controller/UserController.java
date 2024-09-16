@@ -19,19 +19,9 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping("/catalogView")
-    public String catalogView() {
-        return "catalogView";
-    }
-
     @GetMapping({"/", "/home"})
     public String home() {
         return "home";
-    }
-
-    @GetMapping("/confirmation")
-    public String confirmation() {
-        return "confirmation";
     }
 
     @PostMapping("/rsignup")

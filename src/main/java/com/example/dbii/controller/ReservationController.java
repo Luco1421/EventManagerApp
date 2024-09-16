@@ -14,11 +14,21 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    @GetMapping("/catalogView")
+    public String catalogView() {
+        return "catalogView";
+    }
+
     @GetMapping("/reservationsQuery")
     public String query() { return "reservationsQuery"; }
 
     @GetMapping("/reservationDetails")
     public String info() { return "reservationDetails"; }
+
+    @GetMapping("/confirmation")
+    public String confirmation() {
+        return "confirmation";
+    }
 
     @PostMapping("/reservation")
     public String makeReservation(

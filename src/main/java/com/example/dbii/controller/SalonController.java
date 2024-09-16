@@ -39,7 +39,8 @@ public class SalonController {
                            @RequestParam("location") String location,
                            @RequestParam("maxCapacity") Long maxCapacity,
                            Model model) {
-        if(salonService.addSalon(name, location, maxCapacity)) return "redirect:/admin";
+        Long id =  salonService.addSalon(name, location, maxCapacity);
+        if(id != -1) return "redirect:/updateSalon/"+id;
         else model.addAttribute("errorAdd", "Ya este salón existe");
         return "addNewSalon";
     }

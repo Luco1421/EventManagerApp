@@ -42,9 +42,9 @@
                                 <div class="title">Editar salón</div>
                                 <p class="error" th:if="${errorAdd}" th:text="${errorAdd}"></p>
                                 <form class="flip-card__form" th:action="@{/setSalon}" method="post">
-                                    <input class="flip-card__input" name="name" th:placeholder="${salon.salonName}" type="text" required>
-                                    <input class="flip-card__input" name="location" th:placeholder="${salon.location}" type="text" required>
-                                    <input class="flip-card__input" name="maxCapacity" th:placeholder="${salon.maxCapacity}" type="text" required>
+                                    <input class="flip-card__input" name="name" th:placeholder="${salon.salonName}" type="text">
+                                    <input class="flip-card__input" name="location" th:placeholder="${salon.location}" type="text">
+                                    <input class="flip-card__input" name="maxCapacity" th:placeholder="${salon.maxCapacity}" type="text">
                                     <button class="flip-card__btn" type="submit">Confirmar</button>
                                 </form>
                             </div>

@@ -15,9 +15,9 @@ public class SalonService {
     private SalonRepository salonRepository;
 
     @Transactional
-    public boolean addSalon(String name, String location, Long maxCapacity) {
+    public Long addSalon(String name, String location, Long maxCapacity) {
         if (salonRepository.findBySalonNameAndLocation(name, location).isPresent()) {
-            return false;
+            return -1L;
         }
         Salon salon = new Salon();
         salon.setSalonName(name);
@@ -25,7 +25,8 @@ public class SalonService {
         salon.setMaxCapacity(maxCapacity);
 
         salonRepository.save(salon);
-        return true;
+
+        return salon.getId();
     }
 
     public Salon getSalonById(Long id) {

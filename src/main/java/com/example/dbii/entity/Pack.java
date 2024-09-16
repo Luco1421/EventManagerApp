@@ -20,7 +20,7 @@ public class Pack {
     private String packDescription;
 
     @Column(name = "PACK_PRICE")
-    private Long packPrice;
+    private Double packPrice;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "PACK_SERVICE",
@@ -71,11 +71,11 @@ public class Pack {
         this.packDescription = packDescription;
     }
 
-    public Long getPackPrice() {
+    public Double getPackPrice() {
         return packPrice;
     }
 
-    public void setPackPrice(Long packPrice) {
+    public void setPackPrice(Double packPrice) {
         this.packPrice = packPrice;
     }
 
