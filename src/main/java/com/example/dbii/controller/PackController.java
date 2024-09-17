@@ -19,13 +19,16 @@ public class PackController {
     private PackService packService;
 
     @GetMapping("/pack")
-    public String packViewsAdmin() { return "adminPackView"; }
+    public String packViewn() { return "packView"; }
 
     @GetMapping("/addPack")
-    public String addPack() { return "addNewPack"; }
+    public String addPack() { return "addPack"; }
 
     @GetMapping("/editPack")
     public String editPack() { return "editPack"; }
+
+    @GetMapping("/deletePack")
+    public String deletePack() { return "deletePack"; }
 
     @GetMapping("/updatePack/{id}")
     public String updatePack(@PathVariable Long id, Model model) {
@@ -41,13 +44,13 @@ public class PackController {
         Long id = packService.addPack(name, description);
         if(id != -1) return "redirect:/updatePack/"+id;
         else model.addAttribute("errorAdd", "Ya este paquete existe");
-        return "addNewSalon";
+        return "addSalon";
     }
 
     @PostMapping("/searchPack")
-    public String search(@RequestParam("nombre") String nombre,
+    public String search(@RequestParam("name") String nombre,
                          Model model) {
-        Set<Pack> packs = packService.getSalonByName(nombre);
+        Set<Pack> packs = packService.getPackByName(nombre);
         model.addAttribute("results", packs);
         model.addAttribute("researchName", nombre);
         return "editPack";

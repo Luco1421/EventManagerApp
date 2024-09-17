@@ -34,7 +34,7 @@ public class PackService {
         return pack;
     }
 
-    public Set<Pack> getSalonByName(String name) {
+    public Set<Pack> getPackByName(String name) {
         return packRepository.findLikeNameSound(name);
     }
 

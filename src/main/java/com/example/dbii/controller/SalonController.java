@@ -18,14 +18,17 @@ public class SalonController {
     @Autowired
     private SalonService salonService;
 
-    @GetMapping("/admin")
-    public String viewsAdmin() { return "adminView"; }
+    @GetMapping("/salon")
+    public String salonView() { return "salonView"; }
 
     @GetMapping("/addSalon")
-    public String addSalon() { return "addNewSalon"; }
+    public String addSalon() { return "addSalon"; }
 
     @GetMapping("/editSalon")
     public String editSalon() { return "editSalon"; }
+
+    @GetMapping("/deleteSalon")
+    public String deleteSalon() { return "deleteSalon"; }
 
     @GetMapping("/updateSalon/{id}")
     public String updateSalon(@PathVariable Long id, Model model) {
@@ -42,10 +45,10 @@ public class SalonController {
         Long id =  salonService.addSalon(name, location, maxCapacity);
         if(id != -1) return "redirect:/updateSalon/"+id;
         else model.addAttribute("errorAdd", "Ya este salón existe");
-        return "addNewSalon";
+        return "addSalon";
     }
 
-    @PostMapping("/search")
+    @PostMapping("/searchSalon")
     public String search(@RequestParam("nombre") String nombre,
                          Model model) {
         Set<Salon> salons = salonService.getSalonByName(nombre);

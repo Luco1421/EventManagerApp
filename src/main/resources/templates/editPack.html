@@ -33,7 +33,7 @@
 <div class="centroide_col">
     <br>
     <form class="searchBox" th:action="@{/searchPack}" method="post">
-        <input class="searchInput" type="text" name="nombre" placeholder="Nombre del salón" required>
+        <input class="searchInput" type="text" name="name" placeholder="Nombre del salón" required>
         <button class="searchButton" type="submit">
             <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none">
                 <g clip-path="url(#clip0_2_17)">
@@ -71,7 +71,7 @@
             <div class="notiglow"></div>
             <div class="notiborderglow"></div>
             <div class="notititle" th:text="${pack.packName}"></div>
-            <div class="notibody" th:text="${pack.description}"></div>
+            <div class="notibody" th:text="${pack.packDescription}"></div>
             <a class="notibody breath" th:href="@{/updatePack/{id}(id=${pack.id})}"> Editar </a>
         </div>
     </div>

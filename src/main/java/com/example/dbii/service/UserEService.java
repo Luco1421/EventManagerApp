@@ -15,9 +15,9 @@ public class UserEService {
     UserERepository userRepository;
 
     @Transactional
-    public boolean registerUser(String name, String lastName, Long phone, String email, String password) {
+    public Long registerUser(String name, String lastName, Long phone, String email, String password, boolean admin) {
         if (userRepository.findByEmail(email).isPresent()) {
-            return false;
+            return -1L;
         }
         UserE user = new UserE();
         user.setUserName(name);
@@ -25,10 +25,10 @@ public class UserEService {
         user.setPhone(phone);
         user.setEmail(email);
         user.setPassword(password);
-        user.setIsEmployee(false);
+        user.setIsEmployee(admin);
 
         userRepository.save(user);
-        return true;
+        return user.getId();
     }
 
     public int processLogin(String email, String password) {

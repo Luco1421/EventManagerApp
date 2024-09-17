@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-ES" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{/css/catalogView.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+<body>
 <header>
    <div class="header">
        <div class="logo">
@@ -30,62 +31,34 @@
        </div>
    </div>
 </header>
-    <nav class="filterOpts">
-        <div class="fechaPick">
-            <h1>Elegir fecha: </h1>
+<div class="filterOpts">
+    <form th:action="@{/searchAvaible}" method="post">
+        <h1>Fecha para el evento: </h1>
+        <input name="schedule" type="date"/>
+        <button class="searchButton" type="submit"> Lupa </button>
+    </form>
+</div>
+<div class="container mt-4" th:if="${!#strings.isEmpty(researchName)}">
+    <h2 class="resultText"> Salones disponibles para el: <span th:text="${researchName}"></span></h2>
+    <div class="results-container">
+        <div th:if="${#lists.isEmpty(results)}">
+            <p>No hay salones disponibles para "<span th:text="${researchName}"></span>".</p>
         </div>
-        <div class="why">
-            <input type="date"/>
-        </div>
-
-    </nav>
-
-
-    <div class="optsContainer">
-        <div class="infoCard">
-        <article class="card">
-            <img
-                class="card__background"
-                src="https://i.imgur.com/QYWAcXk.jpeg"
-                alt="Photo of Cartagena's cathedral at the background and some colonial style houses"
-                width="1920"
-                height="2193"
-            />
-            <div class="card__content | flow">
-                <div class="card__content--container | flow">
-                    <h2 class="card__title">Colombia</h2>
-                    <p class="card__description">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
-                        labore laudantium deserunt fugiat numquam.
-                    </p>
+        <div th:each="salon:${results}" class="infoCard">
+            <article class="card">
+                <img class="card__background" th:src="${image.url}" width="1920" height="2193" />
+                <div class="card__content | flow">
+                    <div class="card__content--container | flow">
+                        <h2 class="card__title" th:text="${salon.salonName}"></h2>
+                        <p class="card__description" th:text="${salon.salonName}"> </p>
+                        <p class="card__description" th:text="${salon.location}"> </p>
+                        <p class="card__description" th:text="${salon.maxCapacity}"> </p>
+                    </div>
+                    <a class="card__button" th:href="@{/reservate/{id}(id=${salon.id})}"> Ver más </a>
                 </div>
-                <button class="card__button">Read more</button>
-            </div>
-        </article>
-        </div>
-
-
-
-        <div class="infoCard">
-        <article class="card">
-            <img
-                class="card__background"
-                src="https://i.imgur.com/QYWAcXk.jpeg"
-                alt="Photo of Cartagena's cathedral at the background and some colonial style houses"
-                width="1920"
-                height="2193"
-            />
-            <div class="card__content | flow">
-                <div class="card__content--container | flow">
-                    <h2 class="card__title">Colombia</h2>
-                    <p class="card__description">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
-                        labore laudantium deserunt fugiat numquam.
-                    </p>
-                </div>
-                <button class="card__button">Read more</button>
-            </div>
-        </article>
+            </article>
         </div>
     </div>
-
+</div>
+</body>
+</html>
