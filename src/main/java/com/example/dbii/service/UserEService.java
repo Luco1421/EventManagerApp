@@ -52,6 +52,13 @@ public class UserEService {
         return 100;
     }
 
+    public boolean isDropeable(Long userId) {
+        return userRepository.checkUserReservation(userId) == 0;
+    }
 
+    @Transactional
+    public void deleteUserById(Long userId) {
+        if (userRepository.findById(userId).isPresent() && isDropeable(userId)) userRepository.deleteById(userId);
+    }
 
 }

@@ -37,9 +37,13 @@ public class PackService {
         return packRepository.findLikeNameSound(name);
     }
 
+    public boolean isDropeable(Long packId) {
+        return packRepository.checkpackreservations(packId) == 0;
+    }
+
     @Transactional
-    public void deletePack(String name) {
-        //
+    public void deletePack(Long packId) {
+        if (packRepository.findById(packId).isPresent() && isDropeable(packId)) packRepository.deleteById(packId);
     }
 
 }

@@ -92,7 +92,7 @@ public class UserController {
 
     @PostMapping("/searchEmployeeDrop")
     public String searchForDrop(@RequestParam("email") String email,
-                         Model model) {
+                                Model model) {
         Set<UserE> results = userService.getUserByEmail(email);
         model.addAttribute("results", results);
         model.addAttribute("researchName", email);
@@ -100,9 +100,17 @@ public class UserController {
     }
 
     @GetMapping("/updateEmployee/{id}")
-    public String updateSalon(@PathVariable Long id, Model model) {
-        UserE user = userService.getUserById(id);
+    public String updateSalon(@PathVariable("id") Long userId,
+                              Model model) {
+        UserE user = userService.getUserById(userId);
         model.addAttribute("user", user);
         return "updateEmployee";
+    }
+
+    @GetMapping("/dropEmployee/{id}")
+    public String dropEmployee(@PathVariable("id") Long userId,
+                               Model model) {
+        userService.deleteUserById(userId);
+        return "redirect:/employee";
     }
 }

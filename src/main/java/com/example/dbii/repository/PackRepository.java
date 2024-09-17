@@ -4,6 +4,7 @@ import com.example.dbii.entity.Pack;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -15,4 +16,6 @@ public interface PackRepository extends JpaRepository<Pack, Long> {
     @Query(value = "SELECT * FROM Pack WHERE Pack.PACK_NAME LIKE %:name% or UTL_MATCH.EDIT_DISTANCE(Pack.PACK_NAME, :name) < 15", nativeQuery = true)
     Set<Pack> findLikeNameSound(String name);
     Optional<Pack> findById(Long id);
+    @Procedure(procedureName = "checkpackreservations")
+    int checkpackreservations(Long id);
 }

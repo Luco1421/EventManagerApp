@@ -1,7 +1,9 @@
 package com.example.dbii.controller;
 
 import com.example.dbii.entity.Pack;
+import com.example.dbii.entity.Service;
 import com.example.dbii.service.PackService;
+import com.example.dbii.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -17,6 +20,8 @@ public class PackController {
 
     @Autowired
     private PackService packService;
+    @Autowired
+    private ServiceService serviceService;
 
     @GetMapping("/pack")
     public String packViewn() { return "packView"; }
@@ -33,7 +38,9 @@ public class PackController {
     @GetMapping("/updatePack/{id}")
     public String updatePack(@PathVariable Long id, Model model) {
         Pack pack = packService.getPackById(id);
+        List<Service> services = serviceService.getAllServices();
         model.addAttribute("pack", pack);
+        model.addAttribute("services", services);
         return "updatePack";
     }
 
@@ -65,5 +72,10 @@ public class PackController {
         return "deletePack";
     }
 
-
+    @GetMapping("/dropPack/{id}")
+    public String dropPack(@PathVariable("id") Long packId,
+                           Model model) {
+        packService.deletePack(packId);
+        return "redirect:/pack";
+    }
 }

@@ -20,7 +20,7 @@ public class Service {
     private String serviceDescription;
 
     @Column(name = "SERVICE_PRICE")
-    private Long servicePrice;
+    private Double servicePrice;
 
     @ManyToMany(mappedBy = "services", fetch = FetchType.LAZY)
     private Set<Pack> packs = new LinkedHashSet<>();
@@ -68,11 +68,11 @@ public class Service {
         this.serviceDescription = serviceDescription;
     }
 
-    public Long getServicePrice() {
+    public Double getServicePrice() {
         return servicePrice;
     }
 
-    public void setServicePrice(Long servicePrice) {
+    public void setServicePrice(Double servicePrice) {
         this.servicePrice = servicePrice;
     }
 

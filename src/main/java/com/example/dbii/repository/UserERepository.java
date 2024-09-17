@@ -14,7 +14,10 @@ import java.util.Set;
 public interface UserERepository extends JpaRepository<UserE, Long> {
     Optional<UserE> findByEmail(String email);
     Set<UserE> findAllByEmail(String email);
-    UserE findById(long id);
+    Optional<UserE> findById(Long id);
     @Procedure(procedureName = "CHECK_IF_EMPLOYEE")
     int checkIfEmployee(String email);
+    void deleteById(Long userId);
+    @Procedure(procedureName = "checkuserreservation")
+    int checkUserReservation(Long id);
 }

@@ -98,4 +98,10 @@ public class SalonController {
         model.addAttribute("results", results);
         return "catalogView";
     }
+
+    @GetMapping("/dropSalon/{id}")
+    public String deleteSalon(@PathVariable("id") Long id) {
+        salonService.deleteSalon(id);
+        return "redirect:/salon";
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.dbii.service;
 
 import com.example.dbii.entity.Salon;
+import com.example.dbii.repository.ImageRepository;
+import com.example.dbii.repository.SalonFeatureRepository;
 import com.example.dbii.repository.SalonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,12 @@ public class SalonService {
     @Autowired
     private SalonRepository salonRepository;
 
+    @Autowired
+    private ImageRepository imageRepository;
+
+    @Autowired
+    private SalonFeatureRepository salonFeatureRepository;
+
     public Salon getSalonById(Long id) {
         return salonRepository.findById(id).get();
     }
@@ -25,6 +33,10 @@ public class SalonService {
 
     public Set<Salon> getAvailableSalons(LocalDate reservationDate) {
         return salonRepository.findAvailableSalons(reservationDate);
+    }
+
+    public boolean isDropeable(Long salonId) {
+        return salonRepository.CheckSalonReservations(salonId) == 0;
     }
 
     @Transactional
@@ -43,11 +55,12 @@ public class SalonService {
     }
 
     @Transactional
-    public void deleteSalon(String name, String location) throws Exception {
-        if (!salonRepository.findBySalonNameAndLocation(name, location).isPresent()) {
-            throw new Exception("Este salón no existe");
+    public void deleteSalon(Long salonId) {
+        if (salonRepository.findById(salonId).isPresent() && isDropeable(salonId)) {
+            Salon salon = salonRepository.findById(salonId).get();
+            imageRepository.deleteBySalon(salon);
+            salonFeatureRepository.deleteBySalon(salon);
+            salonRepository.delete(salon);
         }
-        //
     }
-
 }
