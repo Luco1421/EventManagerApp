@@ -15,7 +15,4 @@ public interface ServiceRepository extends JpaRepository<Service, Long> {
     Optional<Service> findById(Long id);
     Optional<Service> findByServiceName(String name);
     List<Service> findAll();
-    @Modifying
-    @Query(value = "DELETE FROM PACK_SERVICE WHERE PACK_ID = :packId AND SERVICE_ID = :serviceId", nativeQuery = true)
-    void deleteServiceFromPack(@Param("packId") Long packId, @Param("serviceId") Long serviceId);
 }

@@ -1,15 +1,15 @@
 package com.example.dbii.service;
 
 import com.example.dbii.entity.Pack;
-import com.example.dbii.entity.Service;
 import com.example.dbii.repository.PackRepository;
 import com.example.dbii.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@org.springframework.stereotype.Service
+@Service
 public class ServiceService {
 
     @Autowired
@@ -18,20 +18,18 @@ public class ServiceService {
     @Autowired
     private ServiceRepository serviceRepository;
 
-    public Service getServiceById(Long serviceId) {
+    public com.example.dbii.entity.Service getServiceById(Long serviceId) {
         return serviceRepository.findById(serviceId).get();
     }
 
-    public Service getServiceByName(String name) {
-        if (serviceRepository.findByServiceName(name).isPresent())
-            return serviceRepository.findByServiceName(name).get();
-        else return null;
+    public com.example.dbii.entity.Service getServiceByName(String name) {
+        return serviceRepository.findByServiceName(name).get();
     }
 
     @Transactional
     public Long addService(String name, String description, Double price) {
         if (serviceRepository.findByServiceName(name).isPresent()) return -1L;
-        Service service = new Service();
+        com.example.dbii.entity.Service service = new com.example.dbii.entity.Service();
         service.setServiceName(name);
         service.setServiceDescription(description);
         service.setServicePrice(price);
@@ -39,24 +37,23 @@ public class ServiceService {
         return service.getId();
     }
 
-    @Transactional
+    /*@Transactional
     public void addServiceToPack(Long packId, Long serviceId) {
         Pack pack = packRepository.findById(packId).get();
-        Service service = getServiceById(serviceId);
-
+        com.example.dbii.entity.Service service = serviceRepository.findById(serviceId).get();
         pack.getServices().add(service);
-        service.getPacks().add(pack);
-
         packRepository.save(pack);
-        serviceRepository.save(service);
     }
 
     @Transactional
     public void removeServiceFromPack(Long packId, Long serviceId) {
-        serviceRepository.deleteServiceFromPack(packId, serviceId);
-    }
+        Pack pack = packRepository.findById(packId).get();
+        com.example.dbii.entity.Service service = serviceRepository.findById(serviceId).get();
+        pack.getServices().remove(service);
+        packRepository.save(pack);
+    }*/
 
-    public List<Service> getAllServices() {
+    public List<com.example.dbii.entity.Service> getAllServices() {
         return serviceRepository.findAll();
     }
 }

@@ -7,10 +7,7 @@ import com.example.dbii.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -51,7 +48,7 @@ public class PackController {
         Long id = packService.addPack(name, description);
         if(id != -1) return "redirect:/updatePack/"+id;
         else model.addAttribute("errorAdd", "Ya este paquete existe");
-        return "addSalon";
+        return "addPack";
     }
 
     @PostMapping("/searchPack")
@@ -77,5 +74,15 @@ public class PackController {
                            Model model) {
         packService.deletePack(packId);
         return "redirect:/pack";
+    }
+
+    @PostMapping("/addService")
+    public void addServiceToPack(@PathVariable Long packId, @PathVariable Long serviceId) {
+        packService.addServiceToPackS(packId, serviceId);
+    }
+
+    @DeleteMapping("/dropService")
+    public void removeServiceFromPackS(@PathVariable Long packId, @PathVariable Long serviceId) {
+        packService.removeServiceFromPackS(packId, serviceId);
     }
 }

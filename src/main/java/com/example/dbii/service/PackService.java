@@ -46,4 +46,14 @@ public class PackService {
         if (packRepository.findById(packId).isPresent() && isDropeable(packId)) packRepository.deleteById(packId);
     }
 
+    @Transactional
+    public void addServiceToPackS(Long packId, Long serviceId) {
+        packRepository.addServiceToPack(packId, serviceId);
+    }
+
+    @Transactional
+    public void removeServiceFromPackS(Long packId, Long serviceId) {
+        packRepository.removeServiceFromPack(packId, serviceId);
+    }
+
 }
