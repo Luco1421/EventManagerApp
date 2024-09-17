@@ -5,9 +5,7 @@ import com.example.dbii.service.SalonFeatureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class FeatureController {
@@ -34,5 +32,12 @@ public class FeatureController {
         } else characteristicId = characteristicService.getCharacteristicByName(selectedFeature).getId();
         salonCharacteristicService.addFeatureToSalon(salonId, characteristicId, quantity);
         return "redirect:/updateSalon/" + salonId;
+    }
+
+    @PostMapping("/dropFeature")
+    public String deleteFeature(@RequestParam("salonId") Long salonId,
+                                @RequestParam("characteristicId") Long characteristicId) {
+        salonCharacteristicService.removeCharacteristicFromSalon(salonId, characteristicId);
+        return "redirect:/salon";
     }
 }

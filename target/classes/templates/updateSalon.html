@@ -128,11 +128,17 @@
                     <div class="notiborderglow"></div>
                     <p th:text="${feature.characteristic.characteristicName}" class="notititle"></p>
                     <p th:text="${feature.quantity}" class="notibody"></p>
-                    <a class="notibody breath danger centroide_col" th:href="@{/dropFeature/{id}(id=${feature.id})}">Eliminar</a>
+
+                    <form th:action="@{/dropFeature}" method="post" class="notibody">
+                        <input type="hidden" name="salonId" th:value="${salon.id}" />
+                        <input type="hidden" name="characteristicId" th:value="${feature.characteristic.id}" />
+                        <button type="submit" class="notibody breath danger centroide_col">Eliminar</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

@@ -1,6 +1,7 @@
 package com.example.dbii.service;
 
 import com.example.dbii.entity.Characteristic;
+import com.example.dbii.entity.Salon;
 import com.example.dbii.repository.CharacteristicRepository;
 import com.example.dbii.repository.PackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +40,6 @@ public class CharacteristicService {
 
         characteristicRepository.save(characteristic);
         return characteristic.getId();
-    }
-
-    @Transactional
-    public void deletePack(String name) {
-        //
     }
 
 }

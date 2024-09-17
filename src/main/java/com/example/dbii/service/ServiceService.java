@@ -52,15 +52,8 @@ public class ServiceService {
     }
 
     @Transactional
-    public void removeServiceFromPack(Long packId, Long serviceId) {
-        Pack pack = packRepository.findById(packId).get();
-        Service service = getServiceById(serviceId);
-
-        pack.getServices().remove(service);
-        service.getPacks().remove(pack);
-
-        packRepository.save(pack);
-        serviceRepository.save(service);
+    public void removeServiceFromPack(Long salonId, Long characteristicId) {
+        serviceRepository.deleteBySalonIdAndCharacteristicId(salonId, characteristicId);
     }
 
     public List<Service> getAllServices() {

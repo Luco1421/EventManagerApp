@@ -2,7 +2,6 @@ package com.example.dbii.controller;
 
 import com.example.dbii.entity.Characteristic;
 import com.example.dbii.entity.Image;
-import com.example.dbii.entity.Pack;
 import com.example.dbii.entity.Salon;
 import com.example.dbii.service.CharacteristicService;
 import com.example.dbii.service.SalonService;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.Serial;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

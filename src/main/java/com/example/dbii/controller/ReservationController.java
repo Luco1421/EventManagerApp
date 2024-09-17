@@ -33,6 +33,10 @@ public class ReservationController {
         return "confirmation";
     }
 
+    @GetMapping("/reservationDetails")
+    public String reservationDetails() {
+        return "reservationDetails";
+    }
 
     @PostMapping("/reservation")
     public String makeReservation(

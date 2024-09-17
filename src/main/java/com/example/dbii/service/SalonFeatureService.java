@@ -38,4 +38,10 @@ public class SalonFeatureService {
 
         salonFeatureRepository.save(salonCharacteristic);
     }
+
+    @Transactional
+    public void removeCharacteristicFromSalon(Long salonId, Long characteristicId) {
+        salonFeatureRepository.deleteBySalonIdAndCharacteristicId(salonId, characteristicId);
+    }
+
 }
