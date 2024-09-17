@@ -48,12 +48,21 @@ public class PackController {
     }
 
     @PostMapping("/searchPack")
-    public String search(@RequestParam("name") String nombre,
+    public String search(@RequestParam("name") String name,
                          Model model) {
-        Set<Pack> packs = packService.getPackByName(nombre);
+        Set<Pack> packs = packService.getPackByName(name);
         model.addAttribute("results", packs);
-        model.addAttribute("researchName", nombre);
+        model.addAttribute("researchName", name);
         return "editPack";
+    }
+
+    @PostMapping("/searchPackDrop")
+    public String searchForDrop(@RequestParam("name") String name,
+                         Model model) {
+        Set<Pack> packs = packService.getPackByName(name);
+        model.addAttribute("results", packs);
+        model.addAttribute("researchName", name);
+        return "deletePack";
     }
 
 

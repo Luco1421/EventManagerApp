@@ -1,5 +1,6 @@
 package com.example.dbii.service;
 
+import com.example.dbii.entity.Salon;
 import com.example.dbii.entity.UserE;
 import com.example.dbii.repository.UserERepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,12 +8,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserEService {
 
     @Autowired
     UserERepository userRepository;
+
+    public UserE getUserById(Long id) {
+        return userRepository.findById(id).get();
+    }
+
+    public Set<UserE> getUserByEmail(String email) {
+        return userRepository.findAllByEmail(email);
+    }
+
+    public boolean isUserEmployee(String email) {
+        return userRepository.checkIfEmployee(email) == 1;
+    }
 
     @Transactional
     public Long registerUser(String name, String lastName, Long phone, String email, String password, boolean admin) {
@@ -37,5 +51,7 @@ public class UserEService {
         if (!userByEmail.get().getPassword().equals(password)) { return 50; }
         return 100;
     }
+
+
 
 }

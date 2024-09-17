@@ -30,8 +30,7 @@ public class PackService {
     }
 
     public Pack getPackById(Long id) {
-        Pack pack = packRepository.findById(id).get();
-        return pack;
+        return packRepository.findById(id).get();
     }
 
     public Set<Pack> getPackByName(String name) {

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Service
@@ -16,15 +16,14 @@ public class SalonService {
     private SalonRepository salonRepository;
 
     public Salon getSalonById(Long id) {
-        Salon salon = salonRepository.findById(id).get();
-        return salon;
+        return salonRepository.findById(id).get();
     }
 
     public Set<Salon> getSalonByName(String name) {
         return salonRepository.findLikeNameSound(name);
     }
 
-    public Set<Salon> getAvailableSalons(Date reservationDate) {
+    public Set<Salon> getAvailableSalons(LocalDate reservationDate) {
         return salonRepository.findAvailableSalons(reservationDate);
     }
 

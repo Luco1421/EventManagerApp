@@ -3,11 +3,10 @@ package com.example.dbii.repository;
 import com.example.dbii.entity.Salon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,5 +17,5 @@ public interface SalonRepository extends JpaRepository<Salon, Long> {
     @Query(value = "SELECT * FROM Salon WHERE Salon.SALON_NAME LIKE %:name% or UTL_MATCH.EDIT_DISTANCE(Salon.SALON_NAME, :name) < 15", nativeQuery = true)
     Set<Salon> findLikeNameSound(String name);
     @Query(value = "SELECT * FROM TABLE(avaiblesSalons(:reservationDate))", nativeQuery = true)
-    Set<Salon> findAvailableSalons(@Param("reservationDate") Date reservationDate);
+    Set<Salon> findAvailableSalons(@Param("reservationDate") LocalDate reservationDate);
 }

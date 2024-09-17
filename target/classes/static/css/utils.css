@@ -105,3 +105,23 @@ body {
     font-family: Consolas;
     font-weight: bold;
 }
+
+.danger {
+    margin-left: 25px;
+    background-color: darkred;
+    color: white;
+    font-family: Consolas;
+    font-weight: bold;
+    border-radius: 50px;
+    text-decoration: none;
+    width: 40%;
+    justify-content: center;
+}
+
+.danger:hover {
+    background-color: red;
+    transform: scale(1.05);
+    text-decoration: underline;
+}
+
+

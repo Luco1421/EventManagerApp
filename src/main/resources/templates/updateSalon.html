@@ -9,6 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/utils.css}">
     <link rel="stylesheet" th:href="@{/css/login.css}">
     <link rel="stylesheet" th:href="@{/css/updateSalon.css}">
+    <link rel="stylesheet" th:href="@{/css/editSalon.css}">
 </head>
 <body>
 <header>
@@ -17,15 +18,21 @@
             <img th:src="@{/assets/logo.png}">
         </div>
         <div class="references">
-            <a href="/">
+            <a href="/catalogView">
                 <button>
                     Página Principal
                 </button>
             </a>
 
+            <a href="/admin">
+                <button>
+                    Administrar
+                </button>
+            </a>
+
             <a href="/login">
                 <button>
-                    Iniciar sesión
+                    Cerrar sesión
                 </button>
             </a>
         </div>
@@ -44,7 +51,7 @@
                                 <form class="flip-card__form" th:action="@{/setSalon}" method="post">
                                     <input class="flip-card__input" name="name" th:placeholder="${salon.salonName}" type="text">
                                     <input class="flip-card__input" name="location" th:placeholder="${salon.location}" type="text">
-                                    <input class="flip-card__input" name="maxCapacity" th:placeholder="${salon.maxCapacity}" type="text">
+                                    <input class="flip-card__input" name="maxCapacity" th:placeholder="${salon.maxCapacity}" type="number">
                                     <button class="flip-card__btn" type="submit">Confirmar</button>
                                 </form>
                             </div>
@@ -71,12 +78,13 @@
             </form>
         </div>
         <div class="centroide">
-            <form th:action="@{/saveFeature}" method="post">
+            <form th:action="@{/saveFeature/{id}(id=${salon.id})}" method="post">
                 <div class="form-group">
+                    <p class="error" th:if="${errorAdd}" th:text="${errorAdd}"></p>
                     <label>Seleccionar característica:</label>
-                    <select class="form-control">
+                    <select class="form-control" name="selectedFeature" required>
                         <option value="">-- Selecciona una característica --</option>
-                        <option th:each="feature:${features}" th:value="${feature}" th:text="${feature}"></option>
+                        <option th:each="feature:${features}" th:value="${feature.characteristicName}" th:text="${feature.characteristicName}"></option>
                         <option value="other">Otra</option>
                     </select>
                 </div>
@@ -100,8 +108,8 @@
                     <p>No hay imágenes para "<span th:text="${researchName}"></span>".</p>
                 </div>
                 <div th:each="image:${results}" class="centroide_col">
-                    <img th:url="${image.url}" class="imgCard">
-                    <form th:action="/deleteImg" metod="post">
+                    <img th:src="${image.url}" class="imgCard">
+                    <form th:action="/deleteImg" method="post">
                         <button type="submit" class="deleteBtn"> Eliminar</button>
                     </form>
                 </div>
@@ -109,18 +117,18 @@
         </div>
     </div>
     <div class="centroide_col">
-        <div class="container mt-4" th:if="${!#strings.isEmpty(researchName)}">
-            <h2 class="resultText"> Características de <span th:text="${researchName}"></span></h2>
+        <div class="container mt-4">
+            <h2 class="resultText">Características de <span th:text="${salon.salonName}"></span></h2>
             <div class="results-container">
-                <div th:if="${#lists.isEmpty(results)}">
-                    <p>No hay características para "<span th:text="${researchName}"></span>".</p>
+                <div th:if="${#lists.isEmpty(salon.salonCharacteristics)}">
+                    <p>No hay características para "<span th:text="${salon.salonName}"></span>".</p>
                 </div>
-                <div th:each="characteristic:${results}" class="centroide_col">
-                    <p th:text="${characteristic.name}" class="textCard">
-                    <p th:text="${characteristic.quantity}" class="secondTextCard">
-                    <form th:action="/deleteFeature" metod="post">
-                        <button type="submit" class="deleteBtn"> Eliminar</button>
-                    </form>
+                <div th:each="feature:${salon.salonCharacteristics}" class="notification">
+                    <div class="notiglow"></div>
+                    <div class="notiborderglow"></div>
+                    <p th:text="${feature.characteristic.characteristicName}" class="notititle"></p>
+                    <p th:text="${feature.quantity}" class="notibody"></p>
+                    <a class="notibody breath danger centroide_col" th:href="@{/dropFeature/{id}(id=${feature.id})}">Eliminar</a>
                 </div>
             </div>
         </div>

@@ -1,7 +1,10 @@
 package com.example.dbii.controller;
 
+import com.example.dbii.entity.Characteristic;
 import com.example.dbii.entity.Image;
+import com.example.dbii.entity.Pack;
 import com.example.dbii.entity.Salon;
+import com.example.dbii.service.CharacteristicService;
 import com.example.dbii.service.SalonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,9 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.SimpleDateFormat;
+import java.io.Serial;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -24,6 +27,9 @@ public class SalonController {
 
     @Autowired
     private SalonService salonService;
+
+    @Autowired
+    private CharacteristicService characteristicService;
 
     @GetMapping("/salon")
     public String salonView() { return "salonView"; }
@@ -40,7 +46,9 @@ public class SalonController {
     @GetMapping("/updateSalon/{id}")
     public String updateSalon(@PathVariable Long id, Model model) {
         Salon salon = salonService.getSalonById(id);
+        List<Characteristic> features = characteristicService.getAllCharacteristic();
         model.addAttribute("salon", salon);
+        model.addAttribute("features", features);
         return "updateSalon";
     }
 
@@ -64,15 +72,24 @@ public class SalonController {
         return "editSalon";
     }
 
-    @PostMapping("/searchAvaible")
-    public String searchAvaible(@RequestParam("schedule") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date,
+    @PostMapping("/searchSalonDrop")
+    public String searchForDrop(@RequestParam("name") String name,
                                 Model model) {
-        if (date.before(new Date())) {
+        Set<Salon> salons = salonService.getSalonByName(name);
+        model.addAttribute("results", salons);
+        model.addAttribute("researchName", name);
+        return "deleteSalon";
+    }
+
+    @PostMapping("/searchAvaible")
+    public String searchAvaible(@RequestParam("schedule") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                                Model model) {
+        if (date.isBefore(LocalDate.now())) {
             model.addAttribute("errorDate","La fecha no es válida");
             return "catalogView";
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy", Locale.getDefault());
-        String formattedDate = dateFormat.format(date);
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM 'de' yyyy", Locale.getDefault());
+        String formattedDate = date.format(dateFormatter);
         Image image = new Image();
         image.setUrl("https://i.imgur.com/QYWAcXk.jpeg");
         Set<Salon> results = salonService.getAvailableSalons(date);

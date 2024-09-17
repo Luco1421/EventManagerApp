@@ -38,8 +38,8 @@
 </header>
 <div class="centroide_col">
     <br>
-    <form class="searchBox" th:action="@{/searchSalonDrop}" method="post">
-        <input class="searchInput" type="text" name="name" placeholder="Nombre del salón" required>
+    <form class="searchBox" th:action="@{/searchEmployee}" method="post">
+        <input class="searchInput" type="text" name="email" placeholder="Correo del empleado" required>
         <button class="searchButton" type="submit">
             <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none">
                 <g clip-path="url(#clip0_2_17)">
@@ -73,13 +73,12 @@
         <div th:if="${#lists.isEmpty(results)}">
             <p class="error">No se encontraron resultados para "<span th:text="${researchName}"></span>".</p>
         </div>
-        <div  th:each="salon:${results}" class="notification">
+        <div  th:each="user:${results}" class="notification">
             <div class="notiglow"></div>
             <div class="notiborderglow"></div>
-            <div class="notititle" th:text="${salon.salonName}"></div>
-            <div class="notibody" th:text="${salon.location}"></div>
-            <br>
-            <a class="notibody breath danger centroide_col" th:href="@{/dropPack/{id}(id=${salon.id})}">Eliminar</a>
+            <div class="notititle" th:text="${user.userName}"></div>
+            <div class="notibody" th:text="${user.lastName}"></div>
+            <a class="notibody breath" th:href="@{/updateEmployee/{id}(id=${user.id})}"> Editar </a>
         </div>
     </div>
 </div>
