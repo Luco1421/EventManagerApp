@@ -4,10 +4,7 @@ import com.example.dbii.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ServiceController {
@@ -34,9 +31,9 @@ public class ServiceController {
         return "redirect:/updatePack/" + packId;
     }
 
-    @GetMapping("/dropService/{id}/{id2}")
-    public String deleteService(@PathVariable("id") Long serviceId,
-                                @PathVariable("id2") Long packId) {
+    @PostMapping("/dropService")
+    public String deleteService(@RequestParam("serviceId") Long serviceId,
+                                @RequestParam("packId") Long packId) {
         serviceService.removeServiceFromPack(serviceId, packId);
         return "redirect:/updatePack/" + packId;
     }

@@ -52,8 +52,8 @@ public class ServiceService {
     }
 
     @Transactional
-    public void removeServiceFromPack(Long salonId, Long characteristicId) {
-        serviceRepository.deleteBySalonIdAndCharacteristicId(salonId, characteristicId);
+    public void removeServiceFromPack(Long packId, Long serviceId) {
+        serviceRepository.deleteServiceFromPack(packId, serviceId);
     }
 
     public List<Service> getAllServices() {

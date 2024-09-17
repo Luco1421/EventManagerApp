@@ -13,6 +13,6 @@ public interface SalonFeatureRepository extends JpaRepository<SalonCharacteristi
     Optional<SalonCharacteristic> findById(Long id);
     void deleteBySalon(Salon salon);
     @Modifying
-    @Query(value = "DELETE FROM SalonCharacteristic sc WHERE sc.salon.id = :salonId AND sc.characteristic.id = :characteristicId", nativeQuery = true)
+    @Query(value = "DELETE FROM SalonCharacteristic sc WHERE sc.salon.id = :salonId AND sc.characteristic.id = :characteristicId")
     void deleteBySalonIdAndCharacteristicId(@Param("salonId") Long salonId, @Param("characteristicId") Long characteristicId);
 }

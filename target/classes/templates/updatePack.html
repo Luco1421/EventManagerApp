@@ -91,10 +91,10 @@
     </div>
     <div class="centroide_col">
         <div class="container mt-4">
-            <h2 class="resultText">Servicios de <span th:text="${pack.packName}"></span></h2>
+            <h2 class="resultText">Características de <span th:text="${pack.packName}"></span></h2>
             <div class="results-container">
                 <div th:if="${#lists.isEmpty(pack.services)}">
-                    <p>No hay servicios para "<span th:text="${pack.packName}"></span>".</p>
+                    <p>No hay características para "<span th:text="${pack.packName}"></span>".</p>
                 </div>
                 <div th:each="service:${pack.services}" class="notification">
                     <div class="notiglow"></div>
@@ -102,7 +102,11 @@
                     <p th:text="${service.serviceName}" class="notititle"></p>
                     <p th:text="${service.serviceDescription}" class="notibody"></p>
                     <p th:text="${service.servicePrice}" class="notibody"></p>
-                    <a class="notibody breath danger centroide_col" th:href="@{/dropService/{id}/{id2}(id=${service.id}, id2=${pack.id})}">Eliminar</a>
+                    <form th:action="@{/dropService}" method="post" class="notibody">
+                        <input type="hidden" name="serviceId" th:value="${service.id}" />
+                        <input type="hidden" name="packId" th:value="${pack.id}" />
+                        <button type="submit" class="notibody breath danger centroide_col">Eliminar</button>
+                    </form>
                 </div>
             </div>
         </div>
