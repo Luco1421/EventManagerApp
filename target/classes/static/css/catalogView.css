@@ -121,7 +121,7 @@ p {
   transition: transform 500ms ease-out;
   transition-delay: 500ms;
   p {
-    margin-top: 15px;
+    margin-top: 20px;
     font-size: 10px;
   }
 }

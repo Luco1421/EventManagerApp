@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Set;
 
 @Service
@@ -13,6 +14,19 @@ public class SalonService {
 
     @Autowired
     private SalonRepository salonRepository;
+
+    public Salon getSalonById(Long id) {
+        Salon salon = salonRepository.findById(id).get();
+        return salon;
+    }
+
+    public Set<Salon> getSalonByName(String name) {
+        return salonRepository.findLikeNameSound(name);
+    }
+
+    public Set<Salon> getAvailableSalons(Date reservationDate) {
+        return salonRepository.findAvailableSalons(reservationDate);
+    }
 
     @Transactional
     public Long addSalon(String name, String location, Long maxCapacity) {
@@ -27,15 +41,6 @@ public class SalonService {
         salonRepository.save(salon);
 
         return salon.getId();
-    }
-
-    public Salon getSalonById(Long id) {
-        Salon salon = salonRepository.findById(id).get();
-        return salon;
-    }
-
-    public Set<Salon> getSalonByName(String name) {
-        return salonRepository.findLikeNameSound(name);
     }
 
     @Transactional

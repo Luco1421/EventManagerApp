@@ -38,6 +38,9 @@
         <button class="searchButton" type="submit"> Lupa </button>
     </form>
 </div>
+<br>
+<p th:if="${errorDate}" th:text="${errorDate}" class="centroide_col error"></p>
+<br>
 <div class="container mt-4" th:if="${!#strings.isEmpty(researchName)}">
     <h2 class="resultText"> Salones disponibles para el: <span th:text="${researchName}"></span></h2>
     <div class="results-container">
@@ -50,7 +53,6 @@
                 <div class="card__content | flow">
                     <div class="card__content--container | flow">
                         <h2 class="card__title" th:text="${salon.salonName}"></h2>
-                        <p class="card__description" th:text="${salon.salonName}"> </p>
                         <p class="card__description" th:text="${salon.location}"> </p>
                         <p class="card__description" th:text="${salon.maxCapacity}"> </p>
                     </div>

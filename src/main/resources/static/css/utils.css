@@ -99,3 +99,9 @@ body {
         transition-property: width, left;
     }
 }
+
+.error {
+    color: red;
+    font-family: Consolas;
+    font-weight: bold;
+}

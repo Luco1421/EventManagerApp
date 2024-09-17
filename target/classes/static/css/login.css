@@ -199,12 +199,6 @@
     background-color: var(--input-focus);
 }
 
-.error {
-    color: red;
-    font-family: Consolas;
-    font-weight: bold;
-}
-
 .mostrar {
     cursor: pointer;
 }
