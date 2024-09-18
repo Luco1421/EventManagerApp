@@ -107,15 +107,15 @@ body {
 }
 
 .danger {
-    margin-left: 25px;
     background-color: darkred;
     color: white;
     font-family: Consolas;
     font-weight: bold;
-    border-radius: 50px;
+    border-radius: 5px;
     text-decoration: none;
-    width: 40%;
+    width: 50%;
     justify-content: center;
+    margin-top: 40px;
 }
 
 .danger:hover {
