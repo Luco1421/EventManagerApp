@@ -17,11 +17,12 @@ public class PackController {
 
     @Autowired
     private PackService packService;
+
     @Autowired
     private ServiceService serviceService;
 
     @GetMapping("/pack")
-    public String packViewn() { return "packView"; }
+    public String packView() { return "packView"; }
 
     @GetMapping("/addPack")
     public String addPack() { return "addPack"; }
@@ -33,7 +34,8 @@ public class PackController {
     public String deletePack() { return "deletePack"; }
 
     @GetMapping("/updatePack/{id}")
-    public String updatePack(@PathVariable Long id, Model model) {
+    public String updatePack(@PathVariable Long id,
+                             Model model) {
         Pack pack = packService.getPackById(id);
         List<Service> services = serviceService.getAllServices();
         model.addAttribute("pack", pack);
@@ -46,8 +48,8 @@ public class PackController {
                            @RequestParam("description") String description,
                            Model model) {
         Long id = packService.addPack(name, description);
-        if(id != -1) return "redirect:/updatePack/"+id;
-        else model.addAttribute("errorAdd", "Ya este paquete existe");
+        if (id != -1) return "redirect:/updatePack/"+id;
+        model.addAttribute("errorAdd", "Ya este paquete existe");
         return "addPack";
     }
 
@@ -75,17 +77,4 @@ public class PackController {
         packService.deletePack(packId);
         return "redirect:/pack";
     }
-
-    /*@PostMapping("/addService/{packId}/{serviceId}")
-    public String addServiceToPack(@PathVariable Long packId, @PathVariable Long serviceId) {
-        packService.addServiceToPackS(packId, serviceId);
-        return "redirect:/updatePack/" + packId; // Redireccionar a la página de actualización del paquete
-    }
-
-    @PostMapping("/dropService/{packId}/{serviceId}")
-    public String removeServiceFromPackS(@PathVariable Long packId, @PathVariable Long serviceId) {
-        packService.removeServiceFromPackS(packId, serviceId);
-        return "redirect:/updatePack/" + packId; // Redireccionar a la página de actualización del paquete
-    }*/
-
 }

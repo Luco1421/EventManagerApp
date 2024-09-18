@@ -46,11 +46,11 @@ public class UserController {
 
     @PostMapping("/signup")
     public String signup(@RequestParam("name") String name,
-                               @RequestParam("last_name") String lastName,
-                               @RequestParam("phone") Long phone,
-                               @RequestParam("email") String email,
-                               @RequestParam("password") String password,
-                               Model model) {
+                         @RequestParam("last_name") String lastName,
+                         @RequestParam("phone") Long phone,
+                         @RequestParam("email") String email,
+                         @RequestParam("password") String password,
+                         Model model) {
         Long id = userService.registerUser(name, lastName, phone, email, password, false);
         if (id != -1) return "redirect:/login";
         else model.addAttribute("registrationError", "Ya existe una cuenta asociada a este correo");
@@ -65,15 +65,15 @@ public class UserController {
                          @RequestParam("password") String password,
                          Model model) {
         Long id = userService.registerUser(name, lastName, phone, email, password, true);
-        if (id != -1) return "redirect:/admin";
+        if (id != -1) return "redirect:/employee";
         else model.addAttribute("registrationError", "Ya existe una cuenta asociada a este correo");
         return "addEmployee";
     }
 
     @PostMapping("/log")
     public String log(@RequestParam("email") String email,
-                               @RequestParam("password") String password,
-                               Model model) {
+                      @RequestParam("password") String password,
+                      Model model) {
         int code = userService.processLogin(email, password);
         if (code == 100) return (userService.isUserEmployee(email))?"redirect:/admin":"redirect:/catalogView";
         if (code == 50) model.addAttribute("loginError", "Contraseña incorrecta");
@@ -83,9 +83,9 @@ public class UserController {
 
     @PostMapping("/searchEmployee")
     public String searchEmployee(@RequestParam("email") String email,
-                         Model model) {
-        Set<UserE> results = userService.getUserByEmail(email);
-        model.addAttribute("results", results);
+                                 Model model) {
+        UserE user = userService.getUserByEmail(email);
+        model.addAttribute("users", user);
         model.addAttribute("researchName", email);
         return "editEmployee";
     }
@@ -93,8 +93,8 @@ public class UserController {
     @PostMapping("/searchEmployeeDrop")
     public String searchForDrop(@RequestParam("email") String email,
                                 Model model) {
-        Set<UserE> results = userService.getUserByEmail(email);
-        model.addAttribute("results", results);
+        UserE user = userService.getUserByEmail(email);
+        model.addAttribute("users", user);
         model.addAttribute("researchName", email);
         return "deleteEmployee";
     }

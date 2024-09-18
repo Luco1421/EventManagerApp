@@ -84,8 +84,8 @@
                     <label class="resultText">Seleccionar característica:</label>
                     <select class="select" name="selectedFeature" required>
                         <option value="">-- Selecciona una característica --</option>
-                        <option th:each="feature:${features}" th:value="${feature.characteristicName}" th:text="${feature.characteristicName}"></option>
-                        <option value="other">Otra</option>
+                        <option th:each="feature:${features}" th:value="${feature.id}" th:text="${feature.characteristicName}"></option>
+                        <option value=-1>Otra</option>
                     </select>
                 </div>
                 <div class="new">
@@ -132,8 +132,8 @@
                     <p th:text="${feature.quantity}" class="notibody"></p>
 
                     <form th:action="@{/dropFeature}" method="post" class="notibody">
-                        <input type="hidden" name="salonId" th:value="${salon.id}" />
-                        <input type="hidden" name="characteristicId" th:value="${feature.characteristic.id}" />
+                        <input type="hidden" name="salonId" th:value="${salon.id}">
+                        <input type="hidden" name="characteristicId" th:value="${feature.characteristic.id}">
                         <div class="centroide_col">
                             <button type="submit" class="notibody breath danger centroide_col">Eliminar</button>
                         </div>

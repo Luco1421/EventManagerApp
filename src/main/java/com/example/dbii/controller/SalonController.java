@@ -57,7 +57,7 @@ public class SalonController {
                            Model model) {
         Long id =  salonService.addSalon(name, location, maxCapacity);
         if(id != -1) return "redirect:/updateSalon/"+id;
-        else model.addAttribute("errorAdd", "Ya este salón existe");
+        model.addAttribute("errorAdd", "Ya este salón existe");
         return "addSalon";
     }
 
@@ -65,7 +65,7 @@ public class SalonController {
     public String search(@RequestParam("nombre") String nombre,
                          Model model) {
         Set<Salon> salons = salonService.getSalonByName(nombre);
-        model.addAttribute("results", salons);
+        model.addAttribute("salons", salons);
         model.addAttribute("researchName", nombre);
         return "editSalon";
     }
@@ -74,7 +74,7 @@ public class SalonController {
     public String searchForDrop(@RequestParam("name") String name,
                                 Model model) {
         Set<Salon> salons = salonService.getSalonByName(name);
-        model.addAttribute("results", salons);
+        model.addAttribute("salons", salons);
         model.addAttribute("researchName", name);
         return "deleteSalon";
     }
@@ -86,14 +86,14 @@ public class SalonController {
             model.addAttribute("errorDate","La fecha no es válida");
             return "catalogView";
         }
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM 'de' yyyy", Locale.getDefault());
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM 'de' yyyy", Locale.forLanguageTag("es-ES"));
         String formattedDate = date.format(dateFormatter);
         Image image = new Image();
         image.setUrl("https://i.imgur.com/QYWAcXk.jpeg");
-        Set<Salon> results = salonService.getAvailableSalons(date);
+        List<Salon> salons = salonService.getAvailableSalons(date);
         model.addAttribute("researchName", formattedDate);
         model.addAttribute("image", image);
-        model.addAttribute("results", results);
+        model.addAttribute("salons", salons);
         return "catalogView";
     }
 

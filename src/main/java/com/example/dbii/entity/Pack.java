@@ -31,6 +31,14 @@ public class Pack {
     @OneToMany(mappedBy = "pack", fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new LinkedHashSet<>();
 
+    public void addService(Service service) {
+        this.services.add(service);
+    }
+
+    public void removeService(Service service) {
+        this.services.remove(service);
+    }
+
     public Set<Reservation> getReservations() {
         return reservations;
     }

@@ -38,10 +38,10 @@
 <div class="container mt-4" th:if="${!#strings.isEmpty(researchName)}">
     <h2 class="resultText"> Salones disponibles para el: <span th:text="${researchName}"></span></h2>
     <div class="results-container">
-        <div th:if="${#lists.isEmpty(results)}">
+        <div th:if="${#lists.isEmpty(salons)}">
             <p>No hay salones disponibles para "<span th:text="${researchName}"></span>".</p>
         </div>
-        <div th:each="salon:${results}" class="infoCard">
+        <div th:each="salon:${salons}" class="infoCard">
             <article class="card">
                 <img class="card__background" th:src="${image.url}" width="1920" height="2193" />
                 <div class="card__content | flow">

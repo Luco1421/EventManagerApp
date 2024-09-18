@@ -2,7 +2,6 @@ package com.example.dbii.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 

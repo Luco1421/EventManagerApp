@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -24,24 +25,20 @@ public class SalonService {
     private SalonFeatureRepository salonFeatureRepository;
 
     public Salon getSalonById(Long id) {
-        return salonRepository.findById(id).get();
+        return salonRepository.findById(id).orElse(null);
     }
 
     public Set<Salon> getSalonByName(String name) {
         return salonRepository.findLikeNameSound(name);
     }
 
-    public Set<Salon> getAvailableSalons(LocalDate reservationDate) {
+    public List<Salon> getAvailableSalons(LocalDate reservationDate) {
         return salonRepository.findAvailableSalons(reservationDate);
-    }
-
-    public boolean isDropeable(Long salonId) {
-        return salonRepository.CheckSalonReservations(salonId) == 0;
     }
 
     @Transactional
     public Long addSalon(String name, String location, Long maxCapacity) {
-        if (salonRepository.findBySalonNameAndLocation(name, location).isPresent()) {
+        if (salonRepository.findBySalonName(name) != null) {
             return -1L;
         }
         Salon salon = new Salon();
@@ -52,6 +49,10 @@ public class SalonService {
         salonRepository.save(salon);
 
         return salon.getId();
+    }
+
+    public boolean isDropeable(Long salonId) {
+        return salonRepository.CheckSalonReservations(salonId) == 0;
     }
 
     @Transactional

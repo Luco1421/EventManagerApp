@@ -2,6 +2,7 @@ package com.example.dbii.service;
 
 import com.example.dbii.entity.UserE;
 import com.example.dbii.repository.UserERepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +17,11 @@ public class UserEService {
     UserERepository userRepository;
 
     public UserE getUserById(Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElse(null);
     }
 
-    public Set<UserE> getUserByEmail(String email) {
-        return userRepository.findAllByEmail(email);
+    public UserE getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     public boolean isUserEmployee(String email) {
@@ -29,7 +30,7 @@ public class UserEService {
 
     @Transactional
     public Long registerUser(String name, String lastName, Long phone, String email, String password, boolean admin) {
-        if (userRepository.findByEmail(email).isPresent()) {
+        if (userRepository.findByEmail(email) != null) {
             return -1L;
         }
         UserE user = new UserE();
@@ -39,15 +40,14 @@ public class UserEService {
         user.setEmail(email);
         user.setPassword(password);
         user.setIsEmployee(admin);
-
         userRepository.save(user);
         return user.getId();
     }
 
     public int processLogin(String email, String password) {
-        Optional<UserE> userByEmail = userRepository.findByEmail(email);
-        if (userByEmail.isEmpty()) { return 0; }
-        if (!userByEmail.get().getPassword().equals(password)) { return 50; }
+        UserE user = userRepository.findByEmail(email);
+        if (user == null) { return 0; }
+        if (!user.getPassword().equals(password)) { return 50; }
         return 100;
     }
 

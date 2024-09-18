@@ -25,12 +25,13 @@ public class SalonFeatureService {
 
     @Transactional
     public void addFeatureToSalon(Long salonId, Long characteristicId, int quantity) {
-        Salon salon = salonRepository.findById(salonId).get();
-        Characteristic characteristic = characteristicRepository.findById(characteristicId).get();
+        Salon salon = salonRepository.findById(salonId).orElse(null);
+        Characteristic characteristic = characteristicRepository.findById(characteristicId).orElse(null);
 
         SalonCharacteristicKey key = new SalonCharacteristicKey(salonId, characteristicId);
 
         SalonCharacteristic salonCharacteristic = new SalonCharacteristic();
+
         salonCharacteristic.setId(key);
         salonCharacteristic.setSalon(salon);
         salonCharacteristic.setCharacteristic(characteristic);
@@ -40,8 +41,8 @@ public class SalonFeatureService {
     }
 
     @Transactional
-    public void removeCharacteristicFromSalon(Long salonId, Long characteristicId) {
-        salonFeatureRepository.deleteBySalonIdAndCharacteristicId(salonId, characteristicId);
+    public void removeFeatureFromSalon(Long salonId, Long characteristicId) {
+        salonFeatureRepository.deleteBySalonIdAndCharacteristicId(salonId, characteristicId); //
     }
 
 }
