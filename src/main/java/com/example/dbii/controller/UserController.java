@@ -2,6 +2,7 @@ package com.example.dbii.controller;
 
 import com.example.dbii.entity.Salon;
 import com.example.dbii.entity.UserE;
+import com.example.dbii.service.CharacteristicService;
 import com.example.dbii.service.UserEService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class UserController {
 
     @Autowired
     private UserEService userService;
+    @Autowired
+    private CharacteristicService characteristicService;
 
     @GetMapping({"/", "/home"})
     public String home() {
@@ -44,6 +47,9 @@ public class UserController {
 
     @GetMapping({"/deleteEmployee"})
     public String deleteEmployee() { return "deleteEmployee"; }
+
+    @GetMapping("/query")
+    public String query() { return "queryView"; }
 
     @PostMapping("/signup")
     public String signup(@RequestParam("name") String name,
@@ -115,5 +121,12 @@ public class UserController {
                                Model model) {
         userService.deleteUserById(userId);
         return "redirect:/employee";
+    }
+
+    @GetMapping("/mostCurrencyFeature")
+    public String mostCurrencyFeature(Model model) {
+        String favorite = characteristicService.mostCurrencyFeature();
+        model.addAttribute("favorite", favorite);
+        return "queryView";
     }
 }

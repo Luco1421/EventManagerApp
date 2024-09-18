@@ -8,7 +8,8 @@
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/utils.css}">
     <link rel="stylesheet" th:href="@{/css/reservationDetails.css}">
-    <link rel="stylesheet" th:href="@{/css/updatePack.css}">
+    <link rel="stylesheet" th:href="@{/css/updateSalon.css}">
+    <link rel="stylesheet" th:href="@{/css/editSalon.css}">
 </head>
 <body>
 <header>
@@ -76,7 +77,7 @@
             </form>
             <br>
             <div th:if="${error}" class="error" th:text="${error}"></div>
-            <div th:if="${selectedPack != null}" class="info-box">
+            <div th:if="${selectedPack != null}" class="centroide_col info-box">
                 <br>
                 <p th:text="'Información del paquete '+${selectedPack.packName}"></p>
                 <br>
@@ -112,13 +113,15 @@
                     <button type="submit" name="action" value="info" class="btn btn-primary">Info</button>
                 </div>
             </form>
-            <div th:if="${selectedService != null}" class="info-box">
+            <div th:if="${selectedService != null}" class="centroide_col">
                 <br>
                 <p th:text="'Información del servicio '+${selectedService.serviceName}"></p>
                 <br>
-                <p th:text="'Nombre: '+${selectedService.serviceName}"></p>
-                <p th:text="'Descripcion: '+${selectedService.serviceDescription}"></p>
-                <p th:text="'Precio: '+${selectedService.servicePrice}"></p>
+                <div>
+                    <p th:text="'Nombre: '+${selectedService.serviceName}"></p>
+                    <p th:text="'Descripcion: '+${selectedService.serviceDescription}"></p>
+                    <p th:text="'Precio: '+${selectedService.servicePrice}"></p>
+                </div>
                 <br>
             </div>
         </div>
@@ -128,13 +131,14 @@
     <div class="mCont">
         <div class="container mt-4">
             <h2 class="resultText">Paquete seleccionado: </h2>
-            <p>*Si desea cambiar el paquete, puede eliminarlo y escoger otro*</p>
+            <br>
+            <p style="color: goldenrod">*Si desea cambiar el paquete, puede eliminarlo y escoger otro*</p>
             <div class="results-container">
-                <div th:if="${reservation == null || reservation.pack == null}">
+                <div th:if="${reservation.pack == null}">
                     <br>
                     <p class="error" th:text="'Aún no se selecciona un paquete'"></p>
                 </div>
-                <div class="notification" th:if="${reservation != null && reservation.pack != null}">
+                <div class="notification" th:if="${reservation.pack != null}">
                     <div class="notiglow"></div>
                     <div class="notiborderglow"></div>
                     <p th:text="${reservation.pack.packName}" class="notititle"></p>
@@ -150,18 +154,18 @@
         <div class="container mt-4">
             <h2 class="resultText">Servicios seleccionados: </h2>
             <div class="results-container">
-                <div th:if="${reservation == null || #lists.isEmpty(reservation.services)}">
+                <div th:if="${#lists.isEmpty(reservation.services)}">
                     <br>
                     <p class="error">No hay servicios en la reserva</p>
                 </div>
-                <div th:if="${reservation != null && #lists.isEmpty(reservation.services)}">
+                <div th:if="${!#lists.isEmpty(reservation.services)}">
                     <div th:each="service:${reservation.services}" class="notification">
                         <div class="notiglow"></div>
                         <div class="notiborderglow"></div>
                         <p th:text="${service.serviceName}" class="notititle"></p>
                         <p th:text="${service.serviceDescription}" class="notibody"></p>
                         <p th:text="${service.servicePrice}" class="notibody"></p>
-                        <form th:action="@{/removeService}" method="post" class="notibody">
+                        <form th:action="@{/deleteServiceReservation}" method="post" class="notibody">
                             <input type="hidden" name="serviceId" th:value="${service.id}">
                             <input type="hidden" name="reservationId" th:value="${reservation.id}">
                             <button type="submit" class="notibody breath danger centroide_col">Eliminar</button>

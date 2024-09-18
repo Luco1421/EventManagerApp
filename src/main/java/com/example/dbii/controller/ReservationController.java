@@ -28,13 +28,12 @@ public class ReservationController {
 
     @Autowired
     private ServiceService serviceService;
+
     @Autowired
     private UserERepository userERepository;
 
     @GetMapping("/catalogView")
-    public String catalogView() {
-        return "catalogView";
-    }
+    public String catalogView() { return "catalogView"; }
 
     @GetMapping("/confirmation")
     public String confirmation() {
@@ -46,19 +45,21 @@ public class ReservationController {
                                      @PathVariable LocalDate dma,
                                      Model model,
                                      HttpSession session) {
-        Long reservationId = (Long) session.getAttribute("reservationId");
-        if (reservationId == null) {
+        Long rid = (Long) session.getAttribute("reservationId");
+        if (rid == null) {
             String email = (String) session.getAttribute("email");
-            Long newReservation = reservationService.makeReservation(id,dma,email);
-            session.setAttribute("reservationId", newReservation);
+            Long nrid = reservationService.makeReservation(id,dma,email);
+            session.setAttribute("reservationId", nrid);
         }
-        session.setAttribute("salonId", id);
+
+        Long dnrid = (Long) session.getAttribute("reservationId");
+        Reservation reservation = (Reservation) reservationService.getReservationById(dnrid);
         Salon salon = salonService.getSalonById(id);
-        model.addAttribute("reservationId", reservationId);
+        session.setAttribute("salon", salon);
         model.addAttribute("salon", salon);
+        model.addAttribute("reservation", reservation);
         model.addAttribute("packs", packService.getAllPacks());
         model.addAttribute("services", serviceService.getAllServices());
-
         return "reservationDetails";
     }
 
@@ -67,11 +68,10 @@ public class ReservationController {
                              @RequestParam("action") String action,
                              Model model,
                              HttpSession session) {
-        Long reservationId = (Long) session.getAttribute("reservationId");
-        Reservation reservation = reservationService.getReservationById(reservationId);
+        Reservation reservation = reservationService.getReservationById((Long)session.getAttribute("reservationId"));
         if ("add".equals(action)) {
             if (reservation.getPack() == null) {
-                packService.addPackToReservation(reservationId, packId);
+                packService.addPackToReservation(reservation.getId(), packId);
             } else {
                 model.addAttribute("error", "Sólo se puede añadir un paquete por reserva");
             }
@@ -79,9 +79,7 @@ public class ReservationController {
             Pack selectedPack = packService.getPackById(packId);
             model.addAttribute("selectedPack", selectedPack);
         }
-
-        Long id = (Long) session.getAttribute("salonId");
-        Salon salon = salonService.getSalonById(id);
+        Salon salon = (Salon) session.getAttribute("salon");
         model.addAttribute("salon", salon);
         model.addAttribute("reservation", reservation);
         model.addAttribute("packs", packService.getAllPacks());
@@ -94,16 +92,43 @@ public class ReservationController {
                                  @RequestParam("action") String action,
                                  Model model,
                                  HttpSession session) {
-        Long reservationId = (Long) session.getAttribute("reservationId");
-        Reservation reservation = reservationService.getReservationById(reservationId);
+        Reservation reservation = reservationService.getReservationById((Long)session.getAttribute("reservationId"));
         if ("add".equals(action)) {
-            serviceService.addServiceToReservation(reservationId, serviceId);
+            serviceService.addServiceToReservation(reservation.getId(), serviceId);
         } else if ("info".equals(action)) {
             Service selectedService = serviceService.getServiceById(serviceId);
             model.addAttribute("selectedService", selectedService);
         }
-        Long id = (Long) session.getAttribute("salonId");
-        Salon salon = salonService.getSalonById(id);
+        Salon salon = (Salon) session.getAttribute("salon");
+        model.addAttribute("salon", salon);
+        model.addAttribute("reservation", reservation);
+        model.addAttribute("packs", packService.getAllPacks());
+        model.addAttribute("services", serviceService.getAllServices());
+        return "reservationDetails";
+    }
+
+    @PostMapping("/deleteServiceReservation")
+    public String eraseServiceReservation(@RequestParam("reservationId") Long reservationId,
+                                          @RequestParam("serviceId") Long serviceId,
+                                          HttpSession session,
+                                          Model model) {
+        Reservation reservation = reservationService.getReservationById((Long)session.getAttribute("reservationId"));
+        serviceService.removeServiceFromReservation(reservationId, serviceId);
+        Salon salon = (Salon) session.getAttribute("salon");
+        model.addAttribute("salon", salon);
+        model.addAttribute("reservation", reservation);
+        model.addAttribute("packs", packService.getAllPacks());
+        model.addAttribute("services", serviceService.getAllServices());
+        return "reservationDetails";
+    }
+
+    @PostMapping("/removePack")
+    public String removePackFromReservation(@RequestParam("reservationId") Long reservationId,
+                                            HttpSession session,
+                                            Model model) {
+        Reservation reservation = reservationService.getReservationById((Long)session.getAttribute("reservationId"));
+        packService.removePackFromReservation(reservationId);
+        Salon salon = (Salon) session.getAttribute("salon");
         model.addAttribute("salon", salon);
         model.addAttribute("reservation", reservation);
         model.addAttribute("packs", packService.getAllPacks());

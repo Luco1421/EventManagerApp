@@ -102,8 +102,14 @@
 }
 
 .info-box {
-    color: white;
-    font-size: 20px;
+    color: lemonchiffon;
+    font-size: 15px;
+    font-family: "JetBrains Mono";
+    font-weight: bold;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #2f3640;
 }
 
 .serviceDetails {

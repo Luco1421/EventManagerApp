@@ -1,10 +1,12 @@
 package com.example.dbii.controller;
 
 import com.example.dbii.entity.Pack;
+import com.example.dbii.entity.Salon;
 import com.example.dbii.entity.Service;
 import com.example.dbii.service.PackService;
-import com.example.dbii.service.ReservationService;
+import com.example.dbii.service.SalonService;
 import com.example.dbii.service.ServiceService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,9 @@ public class PackController {
 
     @Autowired
     private ServiceService serviceService;
+
+    @Autowired
+    private SalonService salonService;
 
     @GetMapping("/pack")
     public String packView() { return "packView"; }
@@ -77,12 +82,6 @@ public class PackController {
                            Model model) {
         packService.deletePack(packId);
         return "redirect:/pack";
-    }
-
-    @PostMapping("/removePack")
-    public String removePackFromReservation(@RequestParam("reservationId") Long reservationId) {
-        packService.removePackFromReservation(reservationId);
-        return "reservationDetails";
     }
 
 }

@@ -37,4 +37,8 @@ public class CharacteristicService {
         return characteristic.getId();
     }
 
+    public String mostCurrencyFeature() {
+        return characteristicRepository.obtenerCaracteristicasRecurrentes();
+    }
+
 }
