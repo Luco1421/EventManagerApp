@@ -1,0 +1,139 @@
+.mCont {
+    display: flex;
+    justify-content: space-between;
+}
+
+.iCont img {
+    width: 60vw;
+}
+
+.tCont {
+    width:500px;
+    display: flex;
+    flex-direction: column;
+    align-items: top; /* Aligns items vertically in the center if needed */
+    justify-content: center;
+}
+
+.tCont h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 50px;
+}
+
+.tCont p {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.buttCont {
+    display: flex;
+    padding-top: 30px;
+    justify-content: center;
+    align-content: center;
+}
+
+.button-35 { 
+                display: inline-block;
+                outline: 0;
+                border: 0;
+                background-image: linear-gradient(to right,#e052a0,#f15c41);
+                cursor: pointer;
+                border-radius: 2px;
+                color: #fff;
+                font-weight: 500;
+                text-align: center;
+                text-transform: uppercase;
+                height: 36px;
+                line-height: 36px;
+                padding: 0 10px;
+                font-size: 14px;
+                width: 200px;
+
+                :hover {
+                    background-image: linear-gradient(to right,#3ec7e0,#526bf4);
+                }
+                  
+}
+
+.bruh {
+  width: 60vw;
+  display: grid;
+  grid-template-rows: auto 50px; /* First row for the carousel, second row for the buttons */
+  justify-items: left; /* Center carousel and buttons */
+  position: relative;
+  right: 400px;
+}
+
+main#carousel {
+  width: 100vw;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 600px;
+  --items: 5;
+  --middle: 3;
+  --position: 1;
+  pointer-events: none;
+}
+
+div.item {
+  position: absolute;
+  width: 300px;
+  height: 400px;
+  background-color: coral;
+  --r: calc(var(--position) - var(--offset));
+  --abs: max(calc(var(--r) * -1), var(--r));
+  transition: all 0.25s linear;
+  transform: rotateY(calc(-10deg * var(--r))) translateX(calc(-300px * var(--r)));
+  z-index: calc((var(--position) - var(--abs)));
+}
+
+div.item:nth-of-type(1) {
+  --offset: 1;
+  background-color: #90f1ef;
+}
+div.item:nth-of-type(2) {
+  --offset: 2;
+  background-color: #ff70a6;
+}
+div.item:nth-of-type(3) {
+  --offset: 3;
+  background-color: #ff9770;
+}
+div.item:nth-of-type(4) {
+  --offset: 4;
+  background-color: #ffd670;
+}
+div.item:nth-of-type(5) {
+  --offset: 5;
+  background-color: #e9ff70;
+}
+
+/* Position the radio buttons */
+input {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  right: 800px;
+  grid-row: 2 ; /* Place in second row */
+  cursor: pointer;
+}
+
+/* Adjust position of carousel based on checked radio button */
+input:nth-of-type(1):checked ~ main#carousel {
+  --position: 1;
+}
+input:nth-of-type(2):checked ~ main#carousel {
+  --position: 2;
+}
+input:nth-of-type(3):checked ~ main#carousel {
+  --position: 3;
+}
+input:nth-of-type(4):checked ~ main#carousel {
+  --position: 4;
+}
+input:nth-of-type(5):checked ~ main#carousel {
+  --position: 5;
+}
