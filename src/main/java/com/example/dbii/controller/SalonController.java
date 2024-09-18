@@ -91,6 +91,7 @@ public class SalonController {
         Image image = new Image();
         image.setUrl("https://i.imgur.com/QYWAcXk.jpeg");
         List<Salon> salons = salonService.getAvailableSalons(date);
+        model.addAttribute("ddmmaa", date);
         model.addAttribute("researchName", formattedDate);
         model.addAttribute("image", image);
         model.addAttribute("salons", salons);

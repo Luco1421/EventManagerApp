@@ -71,4 +71,12 @@ public class ServiceService {
         reservation.getServices().add(service);
         reservationRepository.save(reservation);
     }
+
+    @Transactional
+    public void removeServiceFromReservation(Long reservationId, Long serviceId) {
+        Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
+        Service service = getServiceById(serviceId);
+        reservation.getServices().remove(service);
+        reservationRepository.save(reservation);
+    }
 }

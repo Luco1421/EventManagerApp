@@ -3,6 +3,7 @@ package com.example.dbii.controller;
 import com.example.dbii.entity.Salon;
 import com.example.dbii.entity.UserE;
 import com.example.dbii.service.UserEService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -73,7 +74,9 @@ public class UserController {
     @PostMapping("/log")
     public String log(@RequestParam("email") String email,
                       @RequestParam("password") String password,
+                      HttpSession session,
                       Model model) {
+        session.setAttribute("email", email);
         int code = userService.processLogin(email, password);
         if (code == 100) return (userService.isUserEmployee(email))?"redirect:/admin":"redirect:/catalogView";
         if (code == 50) model.addAttribute("loginError", "Contraseña incorrecta");

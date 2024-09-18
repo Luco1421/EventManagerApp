@@ -50,7 +50,7 @@
                         <p class="card__description" th:text="${salon.location}"> </p>
                         <p class="card__description" th:text="${salon.maxCapacity}"> </p>
                     </div>
-                    <a class="card__button" th:href="@{/reservate/{id}(id=${salon.id})}"> Ver más </a>
+                    <a class="card__button" th:href="@{/reservate/{id}/{dma}(id=${salon.id},dma=${ddmmaa})}"> Ver más </a>
                 </div>
             </article>
         </div>

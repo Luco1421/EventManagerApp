@@ -61,7 +61,7 @@
             </div>
         </div>
         <div class="centroide">
-            <form class="file-upload-form">
+            <form class="file-upload-form" th:action="@{/uploadImage}" method="post" enctype="multipart/form-data">
                 <label for="file" class="file-upload-label">
                     <div class="file-upload-design">
                         <svg viewBox="0 0 640 512" height="1em">
@@ -73,8 +73,10 @@
                         <p>or</p>
                         <span class="browse-button">Browse file</span>
                     </div>
-                    <input id="file" type="file" />
+                    <input id="file" type="file" accept="image/*" name="file" required>
                 </label>
+                <input type="hidden" name="salonId" th:value="${salon.id}">
+                <button type="submit">Añadir</button>
             </form>
         </div>
         <div class="centroide">
@@ -103,15 +105,15 @@
         </div>
     </div>
     <div class="centroide_col">
-        <div class="container mt-4" th:if="${!#strings.isEmpty(researchName)}">
-            <h2 class="resultText"> Imágenes de <span th:text="${researchName}"></span></h2>
+        <div class="container mt-4">
+            <h2 class="resultText"> Imágenes de <span th:text="${salon.salonName}"></span></h2>
             <div class="results-container">
-                <div th:if="${#lists.isEmpty(results)}">
-                    <p class="error">No hay imágenes para "<span th:text="${researchName}"></span>".</p>
+                <div th:if="${#lists.isEmpty(salon.images)}">
+                    <p class="error">No hay imágenes para "<span th:text="${salon.salonName}"></span>".</p>
                 </div>
-                <div th:each="image:${results}" class="centroide_col">
+                <div th:each="image:${salon.images}" class="centroide_col">
                     <img th:src="${image.url}" class="imgCard">
-                    <form th:action="/deleteImg" method="post">
+                    <form th:action="@{/deleteImg}" method="post">
                         <button type="submit" class="deleteBtn"> Eliminar</button>
                     </form>
                 </div>

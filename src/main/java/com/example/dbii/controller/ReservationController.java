@@ -1,6 +1,7 @@
 package com.example.dbii.controller;
 
 import com.example.dbii.entity.*;
+import com.example.dbii.repository.UserERepository;
 import com.example.dbii.service.PackService;
 import com.example.dbii.service.ReservationService;
 import com.example.dbii.service.SalonService;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @Controller
 public class ReservationController {
@@ -25,6 +28,8 @@ public class ReservationController {
 
     @Autowired
     private ServiceService serviceService;
+    @Autowired
+    private UserERepository userERepository;
 
     @GetMapping("/catalogView")
     public String catalogView() {
@@ -36,34 +41,20 @@ public class ReservationController {
         return "confirmation";
     }
 
-    @GetMapping("/reservate/{id}")
+    @GetMapping("/reservate/{id}/{dma}")
     public String reservationDetails(@PathVariable Long id,
+                                     @PathVariable LocalDate dma,
                                      Model model,
                                      HttpSession session) {
         Long reservationId = (Long) session.getAttribute("reservationId");
         if (reservationId == null) {
-            Reservation newReservation = reservationService.makeReservation();
-            session.setAttribute("reservationId", newReservation.getId());
+            String email = (String) session.getAttribute("email");
+            Long newReservation = reservationService.makeReservation(id,dma,email);
+            session.setAttribute("reservationId", newReservation);
         }
+        session.setAttribute("salonId", id);
         Salon salon = salonService.getSalonById(id);
-        Image i1 = new Image();
-        i1.setUrl("https://i.imgur.com/QYWAcXk.jpeg");
-        Image i2 = new Image();
-        i2.setUrl("https://i.blogs.es/82d7ef/pokemon/1366_2000.webp");
-        Image i3 = new Image();
-        i3.setUrl("https://i.imgur.com/QYWAcXk.jpeg");
-        Image i4 = new Image();
-        i4.setUrl("https://i.blogs.es/82d7ef/pokemon/1366_2000.webp");
-        Image i5 = new Image();
-        i5.setUrl("https://i.imgur.com/QYWAcXk.jpeg");
-        Image i6 = new Image();
-        i6.setUrl("https://i.blogs.es/82d7ef/pokemon/1366_2000.webp");
-        salon.getImages().add(i1);
-        salon.getImages().add(i2);
-        salon.getImages().add(i3);
-        salon.getImages().add(i4);
-        salon.getImages().add(i5);
-        salon.getImages().add(i6);
+        model.addAttribute("reservationId", reservationId);
         model.addAttribute("salon", salon);
         model.addAttribute("packs", packService.getAllPacks());
         model.addAttribute("services", serviceService.getAllServices());
@@ -76,14 +67,23 @@ public class ReservationController {
                              @RequestParam("action") String action,
                              Model model,
                              HttpSession session) {
+        Long reservationId = (Long) session.getAttribute("reservationId");
+        Reservation reservation = reservationService.getReservationById(reservationId);
         if ("add".equals(action)) {
-            Long reservationId = (Long) session.getAttribute("reservaId");
-            packService.addPackToReservation(reservationId, packId);
+            if (reservation.getPack() == null) {
+                packService.addPackToReservation(reservationId, packId);
+            } else {
+                model.addAttribute("error", "Sólo se puede añadir un paquete por reserva");
+            }
         } else if ("info".equals(action)) {
             Pack selectedPack = packService.getPackById(packId);
             model.addAttribute("selectedPack", selectedPack);
         }
-        model.addAttribute("salon", salonService.getSalonById(packId));
+
+        Long id = (Long) session.getAttribute("salonId");
+        Salon salon = salonService.getSalonById(id);
+        model.addAttribute("salon", salon);
+        model.addAttribute("reservation", reservation);
         model.addAttribute("packs", packService.getAllPacks());
         model.addAttribute("services", serviceService.getAllServices());
         return "reservationDetails";
@@ -94,16 +94,24 @@ public class ReservationController {
                                  @RequestParam("action") String action,
                                  Model model,
                                  HttpSession session) {
+        Long reservationId = (Long) session.getAttribute("reservationId");
+        Reservation reservation = reservationService.getReservationById(reservationId);
         if ("add".equals(action)) {
-            Long reservationId = (Long) session.getAttribute("reservationId");
             serviceService.addServiceToReservation(reservationId, serviceId);
         } else if ("info".equals(action)) {
             Service selectedService = serviceService.getServiceById(serviceId);
             model.addAttribute("selectedService", selectedService);
         }
+        Long id = (Long) session.getAttribute("salonId");
+        Salon salon = salonService.getSalonById(id);
+        model.addAttribute("salon", salon);
+        model.addAttribute("reservation", reservation);
         model.addAttribute("packs", packService.getAllPacks());
         model.addAttribute("services", serviceService.getAllServices());
         return "reservationDetails";
     }
+
+    /*@PostMapping("/makeReservation")
+    public String makeReservation() {}*/
 
 }

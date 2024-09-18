@@ -75,5 +75,4 @@ public class Service {
     public void setServicePrice(Double servicePrice) {
         this.servicePrice = servicePrice;
     }
-
 }

@@ -61,4 +61,11 @@ public class PackService {
         if (packRepository.findById(packId).isPresent() && isDropeable(packId)) packRepository.deleteById(packId);
     }
 
+    @Transactional
+    public void removePackFromReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
+        reservation.setPack(null);
+        reservationRepository.save(reservation);
+    }
+
 }

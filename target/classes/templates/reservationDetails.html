@@ -8,6 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/utils.css}">
     <link rel="stylesheet" th:href="@{/css/reservationDetails.css}">
+    <link rel="stylesheet" th:href="@{/css/updatePack.css}">
 </head>
 <body>
 <header>
@@ -27,11 +28,11 @@
 </header>
 <div class="centroide_col">
     <div class="mCont">
-        <div class="carousel-container">
+        <div class="carousel-container" th:if="${!salon.images.isEmpty()}">
             <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div th:each="pic, iterStat : ${salon.images}" th:class="${iterStat.first} ? 'carousel-item active' : 'carousel-item'">
-                        <img th:src="${pic.url}" class="d-block w-100" alt="Imagen del salón">
+                        <img th:src="@{'/uploads/' + ${pic.url}}" class="d-block w-100">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
@@ -53,15 +54,17 @@
 <div class="centroide_col">
     <div class="mCont">
         <div class="carousel-container">
-            <h3>Paquetes</h3>
             <form th:action="@{/managePack}" method="post" class="form">
                 <div class="select">
                     <label class="labelText">Seleccionar un paquete:</label>
+                    <br>
+                    <br>
                     <select name="selectedPack" class="form-control" required>
                         <option value="">-- Selecciona un paquete --</option>
                         <option th:each="pack:${packs}"
                                 th:value="${pack.id}"
-                                th:text="${pack.packName}">
+                                th:text="${pack.packName}"
+                                th:selected="${selectedPack != null and selectedPack.id == pack.id}">
                         </option>
                     </select>
                 </div>
@@ -71,21 +74,32 @@
                     <button type="submit" name="action" value="info" class="btn btn-primary">Info</button>
                 </div>
             </form>
+            <br>
+            <div th:if="${error}" class="error" th:text="${error}"></div>
             <div th:if="${selectedPack != null}" class="info-box">
-                <h4>Información del Paquete</h4>
-                <p th:text="${selectedPack.packName}"></p>
-                <p th:text="'Servicios incluidos: ' + ${selectedPack.services}"></p>
-                <p th:text="'Precio: $' + ${selectedPack.price}"></p>
+                <br>
+                <p th:text="'Información del paquete '+${selectedPack.packName}"></p>
+                <br>
+                <p> Servicios incluidos: </p>
+                <br>
+                <div th:each="service:${selectedPack.services}" class="serviceDetails">
+                    <p th:text="'Nombre: '+${service.serviceName}"></p>
+                    <p th:text="'Descripcion: '+${service.serviceDescription}"></p>
+                    <p th:text="'Precio: '+${service.servicePrice}"></p>
+                    <br>
+                </div>
+                <p th:text="'Precio especial del paquete: '+${selectedPack.packPrice}"></p>
             </div>
         </div>
         <div class="carousel-container">
-            <h3>Servicios</h3>
             <form th:action="@{/manageService}" method="post" class="form">
                 <div class="select">
                     <label class="labelText">Seleccionar un servicio:</label>
+                    <br>
+                    <br>
                     <select name="selectedService" class="form-control" required>
                         <option value="">-- Selecciona un servicio --</option>
-                        <option th:each="service : ${services}"
+                        <option th:each="service:${services}"
                                 th:value="${service.id}"
                                 th:text="${service.serviceName}"
                                 th:selected="${selectedService != null and selectedService.id == service.id}">
@@ -99,14 +113,66 @@
                 </div>
             </form>
             <div th:if="${selectedService != null}" class="info-box">
-                <h4>Información del Servicio</h4>
-                <p th:text="${selectedService.serviceName}"></p>
-                <p th:text="${selectedService.description}"></p>
-                <p th:text="'Precio: $' + ${selectedService.price}"></p>
+                <br>
+                <p th:text="'Información del servicio '+${selectedService.serviceName}"></p>
+                <br>
+                <p th:text="'Nombre: '+${selectedService.serviceName}"></p>
+                <p th:text="'Descripcion: '+${selectedService.serviceDescription}"></p>
+                <p th:text="'Precio: '+${selectedService.servicePrice}"></p>
+                <br>
             </div>
         </div>
     </div>
 </div>
+<div class="centroide_col">
+    <div class="mCont">
+        <div class="container mt-4">
+            <h2 class="resultText">Paquete seleccionado: </h2>
+            <p>*Si desea cambiar el paquete, puede eliminarlo y escoger otro*</p>
+            <div class="results-container">
+                <div th:if="${reservation == null || reservation.pack == null}">
+                    <br>
+                    <p class="error" th:text="'Aún no se selecciona un paquete'"></p>
+                </div>
+                <div class="notification" th:if="${reservation != null && reservation.pack != null}">
+                    <div class="notiglow"></div>
+                    <div class="notiborderglow"></div>
+                    <p th:text="${reservation.pack.packName}" class="notititle"></p>
+                    <p th:text="${reservation.pack.packPrice}" class="notibody"></p>
+                    <form th:action="@{/removePack}" method="post" class="notibody">
+                        <input type="hidden" name="packId" th:value="${reservation.pack.id}">
+                        <input type="hidden" name="reservationId" th:value="${reservation.id}">
+                        <button type="submit" class="notibody breath danger centroide_col">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-4">
+            <h2 class="resultText">Servicios seleccionados: </h2>
+            <div class="results-container">
+                <div th:if="${reservation == null || #lists.isEmpty(reservation.services)}">
+                    <br>
+                    <p class="error">No hay servicios en la reserva</p>
+                </div>
+                <div th:if="${reservation != null && #lists.isEmpty(reservation.services)}">
+                    <div th:each="service:${reservation.services}" class="notification">
+                        <div class="notiglow"></div>
+                        <div class="notiborderglow"></div>
+                        <p th:text="${service.serviceName}" class="notititle"></p>
+                        <p th:text="${service.serviceDescription}" class="notibody"></p>
+                        <p th:text="${service.servicePrice}" class="notibody"></p>
+                        <form th:action="@{/removeService}" method="post" class="notibody">
+                            <input type="hidden" name="serviceId" th:value="${service.id}">
+                            <input type="hidden" name="reservationId" th:value="${reservation.id}">
+                            <button type="submit" class="notibody breath danger centroide_col">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div>
     <form th:action="@{/reservar}" method="post">

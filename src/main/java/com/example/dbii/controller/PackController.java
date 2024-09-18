@@ -3,6 +3,7 @@ package com.example.dbii.controller;
 import com.example.dbii.entity.Pack;
 import com.example.dbii.entity.Service;
 import com.example.dbii.service.PackService;
+import com.example.dbii.service.ReservationService;
 import com.example.dbii.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -77,4 +78,11 @@ public class PackController {
         packService.deletePack(packId);
         return "redirect:/pack";
     }
+
+    @PostMapping("/removePack")
+    public String removePackFromReservation(@RequestParam("reservationId") Long reservationId) {
+        packService.removePackFromReservation(reservationId);
+        return "reservationDetails";
+    }
+
 }
