@@ -76,13 +76,16 @@ public class PackController {
         return "redirect:/pack";
     }
 
-    @PostMapping("/addService")
-    public void addServiceToPack(@PathVariable Long packId, @PathVariable Long serviceId) {
+    /*@PostMapping("/addService/{packId}/{serviceId}")
+    public String addServiceToPack(@PathVariable Long packId, @PathVariable Long serviceId) {
         packService.addServiceToPackS(packId, serviceId);
+        return "redirect:/updatePack/" + packId; // Redireccionar a la página de actualización del paquete
     }
 
-    @DeleteMapping("/dropService")
-    public void removeServiceFromPackS(@PathVariable Long packId, @PathVariable Long serviceId) {
+    @PostMapping("/dropService/{packId}/{serviceId}")
+    public String removeServiceFromPackS(@PathVariable Long packId, @PathVariable Long serviceId) {
         packService.removeServiceFromPackS(packId, serviceId);
-    }
+        return "redirect:/updatePack/" + packId; // Redireccionar a la página de actualización del paquete
+    }*/
+
 }

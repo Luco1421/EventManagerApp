@@ -18,6 +18,6 @@ public interface UserERepository extends JpaRepository<UserE, Long> {
     @Procedure(procedureName = "CHECK_IF_EMPLOYEE")
     int checkIfEmployee(String email);
     void deleteById(Long userId);
-    @Procedure(procedureName = "checkuserreservation")
-    int checkUserReservation(Long id);
+    @Procedure(procedureName = "checkuserreservations")
+    int checkUserReservations(Long id);
 }

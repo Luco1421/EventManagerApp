@@ -51,7 +51,7 @@
                                 <form class="flip-card__form" th:action="@{/setPack}" method="post">
                                     <input class="flip-card__input" name="name" th:placeholder="${pack.packName}" type="text">
                                     <input class="flip-card__input" name="description" th:placeholder="${pack.packDescription}" type="text">
-                                    <input class="flip-card__input" name="price" th:placeholder="${pack.packPrice}" type="text">
+                                    <input class="flip-card__input" name="price" th:placeholder="${pack.packPrice}" type="number">
                                     <button class="flip-card__btn" type="submit">Confirmar</button>
                                 </form>
                             </div>
@@ -66,8 +66,8 @@
                     <label>Seleccionar servicio:</label>
                     <select name="selectedService" class="form-control" required>
                         <option value="">-- Selecciona un servicio --</option>
-                        <option th:each="service:${services}" th:value="${service.serviceName}" th:text="${service.serviceName}"></option>
-                        <option value="other">Otro</option>
+                        <option th:each="service:${services}" th:value="${service.id}" th:text="${service.serviceName}"></option>
+                        <option value=-1>Otro</option>
                     </select>
                 </div>
                 <p class="message">*Llenar solo en caso de querer agregar un servicio nuevo*</p>
@@ -102,7 +102,7 @@
                     <p th:text="${service.serviceName}" class="notititle"></p>
                     <p th:text="${service.serviceDescription}" class="notibody"></p>
                     <p th:text="${service.servicePrice}" class="notibody"></p>
-                    <form th:action="@{/dropService}" method="post" class="notibody">
+                    <form th:action="@{/dropService/{packId}/{serviceId}(packId=${pack.id}, serviceId=${service.id})}" method="post" class="notibody">
                         <input type="hidden" name="serviceId" th:value="${service.id}" />
                         <input type="hidden" name="packId" th:value="${pack.id}" />
                         <button type="submit" class="notibody breath danger centroide_col">Eliminar</button>
@@ -112,6 +112,7 @@
         </div>
     </div>
 </div>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>

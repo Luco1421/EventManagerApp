@@ -17,30 +17,29 @@ public class ServiceController {
     private PackService packService;
 
     @PostMapping("/saveService/{id}")
-    public String saveFeature(@PathVariable("id") Long packId,
-                              @RequestParam("selectedService") String selectedService,
-                              @RequestParam("otherService") String otherService,
-                              @RequestParam("description") String description,
-                              @RequestParam(value = "price", required = false) Double price,
-                              Model model) {
-        Long serviceId;
-        if (selectedService.isEmpty()) {
-            model.addAttribute("errorAdd", "No seleccionó ninguna característica");
-            return "redirect:/updatePack/" + packId;
+    public String saveServiceToPack(@PathVariable Long id,
+                                    @RequestParam("selectedService") Long serviceId,
+                                    @RequestParam(name = "otherService", required = false) String otherService,
+                                    @RequestParam(name = "description", required = false) String description,
+                                    @RequestParam(name = "price", required = false) Double price) {
+
+        if (serviceId == -1) {
+            // Añadir nuevo servicio si "Otro" fue seleccionado
+            Long newServiceId = serviceService.addService(otherService, description, price);
+            packService.addServiceToPackS(id, newServiceId);
+        } else {
+            // Añadir servicio existente
+            packService.addServiceToPackS(id, serviceId);
         }
-        if (selectedService.equals("other")) {
-            serviceId = serviceService.addService(otherService, description, price);
-            if (serviceId == -1) serviceId = serviceService.getServiceByName(otherService).getId();
-        } else serviceId = serviceService.getServiceByName(selectedService).getId();
-        packService.addServiceToPackS(packId, serviceId);
-        return "redirect:/updatePack/" + packId;
+        return "redirect:/updatePack/" + id;
     }
 
 
-    @PostMapping("/dropService")
-    public String deleteService(@RequestParam("serviceId") Long serviceId,
-                                @RequestParam("packId") Long packId) {
-        packService.removeServiceFromPackS(serviceId, packId);
+
+    @PostMapping("/dropService/{packId}/{serviceId}")
+    public String deleteService(@PathVariable("packId") Long packId,
+                                @PathVariable("serviceId") Long serviceId) {
+        packService.removeServiceFromPackS(packId, serviceId);
         return "redirect:/updatePack/" + packId;
     }
 }

@@ -1,6 +1,5 @@
 package com.example.dbii.service;
 
-import com.example.dbii.entity.Salon;
 import com.example.dbii.entity.UserE;
 import com.example.dbii.repository.UserERepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,7 @@ public class UserEService {
     }
 
     public boolean isDropeable(Long userId) {
-        return userRepository.checkUserReservation(userId) == 0;
+        return userRepository.checkUserReservations(userId) == 0;
     }
 
     @Transactional
