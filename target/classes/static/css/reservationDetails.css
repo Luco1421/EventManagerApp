@@ -115,3 +115,14 @@
 .serviceDetails {
     margin-left: 30px;
 }
+
+.type {
+    width: 50%;
+    display: flex;
+    align-content: center;
+}
+
+.fb {
+    display: flex;
+    justify-content: center;
+}

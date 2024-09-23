@@ -38,7 +38,7 @@ public class CharacteristicService {
     }
 
     public String mostCurrencyFeature() {
-        return characteristicRepository.obtenerCaracteristicasRecurrentes();
+        return characteristicRepository.OBTENER_CARACTERISTICA_RECURRENTE();
     }
 
 }

@@ -82,7 +82,8 @@ public class UserController {
                       @RequestParam("password") String password,
                       HttpSession session,
                       Model model) {
-        session.setAttribute("email", email);
+        UserE user = userService.getUserByEmail(email);
+        session.setAttribute("user", user);
         int code = userService.processLogin(email, password);
         if (code == 100) return (userService.isUserEmployee(email))?"redirect:/admin":"redirect:/catalogView";
         if (code == 50) model.addAttribute("loginError", "Contraseña incorrecta");

@@ -17,6 +17,11 @@
            <img th:src="@{/assets/logo.png}">
        </div>
        <div class="references">
+           <a href="/reserves">
+               <button>
+                   Mis reservas
+               </button>
+           </a>
            <a href="/login">
                <button>
                    Cerrar sesión
@@ -27,6 +32,18 @@
 </header>
 <div class="filterOpts">
     <form th:action="@{/searchAvaible}" method="post">
+        <div class="type">
+            <h1>Seleccionar un tipo de evento:</h1>
+            <br>
+            <select name="selectedType" class="form-control" required>
+                <option value="">-- Selecciona un tipo de evento --</option>
+                <option th:each="type:${types}"
+                        th:value="${type.id}"
+                        th:text="${type.typeName}"
+                        th:selected="${selectedType != null && selectedType.id == type.id}">
+                </option>
+            </select>
+        </div>
         <h1>Fecha para el evento: </h1>
         <input name="schedule" type="date" required>
         <button class="searchButton" type="submit"> Lupa </button>
@@ -42,17 +59,21 @@
             <p>No hay salones disponibles para "<span th:text="${researchName}"></span>".</p>
         </div>
         <div th:each="salon:${salons}" class="infoCard">
-            <article class="card">
-                <img class="card__background" th:src="${image.url}" width="1920" height="2193" />
+            <form th:action="@{/reserve/{id}(id = -1)}" method="post" class="card">
+                <img class="card__background"
+                     th:if="${not #lists.isEmpty(salon.images)}"
+                     th:src="@{'/uploads/' + ${salon.images.iterator().next().url}}">
                 <div class="card__content | flow">
                     <div class="card__content--container | flow">
                         <h2 class="card__title" th:text="${salon.salonName}"></h2>
                         <p class="card__description" th:text="${salon.location}"> </p>
                         <p class="card__description" th:text="${salon.maxCapacity}"> </p>
                     </div>
-                    <a class="card__button" th:href="@{/reservate/{id}/{dma}(id=${salon.id},dma=${ddmmaa})}"> Ver más </a>
+                    <input hidden name="salonId" th:value="${salon.id}">
+                    <input hidden name="date" th:value="${date}">
+                    <button type="submit" class="card__button"> Ver más </button>
                 </div>
-            </article>
+            </form>
         </div>
     </div>
 </div>

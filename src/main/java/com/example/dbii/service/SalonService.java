@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -63,5 +65,27 @@ public class SalonService {
             salonFeatureRepository.deleteBySalon(salon);
             salonRepository.delete(salon);
         }
+    }
+
+    public List<Salon> getAllSalons() {
+        return salonRepository.findAll();
+    }
+
+    public String getSalonYEventoMasComun(Date fechaInicio, Date fechaFin) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaInicioStr = sdf.format(fechaInicio);
+        String fechaFinStr = sdf.format(fechaFin);
+        return salonRepository.obtenerSalonYEventoMasComun(fechaInicioStr, fechaFinStr);
+    }
+
+    public Salon updateSalon(Long id, String name, String location, Long maxCapacity) {
+        Salon salon = getSalonById(id);
+        if (salon != null) {
+            salon.setSalonName(name);
+            salon.setLocation(location);
+            salon.setMaxCapacity(maxCapacity);
+            return salonRepository.save(salon);
+        }
+        return null;
     }
 }

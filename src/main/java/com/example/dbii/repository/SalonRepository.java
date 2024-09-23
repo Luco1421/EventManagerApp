@@ -20,6 +20,10 @@ public interface SalonRepository extends JpaRepository<Salon, Long> {
     List<Salon> findAvailableSalons(@Param("reservationDate") LocalDate reservationDate);
     @Procedure(procedureName = "CheckSalonReservations")
     int CheckSalonReservations(Long id);
+    @Query(value = "SELECT Obtener_Salon_y_Evento_Mas_Comun(TO_DATE(:fechaInicio, 'YYYY-MM-DD'), TO_DATE(:fechaFin, 'YYYY-MM-DD')) FROM DUAL", nativeQuery = true)
+    String obtenerSalonYEventoMasComun(@Param("fechaInicio") String fechaInicio, @Param("fechaFin") String fechaFin);
+
+
 }
 
 /*

@@ -28,7 +28,7 @@ public class Reservation {
     private LocalDate reservationDate;
 
     @Column(name = "RESERVATION_PRICE")
-    private Long reservationPrice;
+    private Double reservationPrice;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "RESERVATION_SERVICE",
@@ -41,7 +41,7 @@ public class Reservation {
     private Salon salon;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TYPE_ID")
+    @JoinColumn(name = "TYPE_ID", nullable = false)
     private Type type;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -112,12 +112,26 @@ public class Reservation {
         this.reservationDate = reservationDate;
     }
 
-    public Long getReservationPrice() {
+    public Double getReservationPrice() {
         return reservationPrice;
     }
 
-    public void setReservationPrice(Long reservationPrice) {
+    public void setReservationPrice(Double reservationPrice) {
         this.reservationPrice = reservationPrice;
     }
 
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", pack=" + pack +
+                ", reservationState=" + reservationState +
+                ", reservationDate=" + reservationDate +
+                ", reservationPrice=" + reservationPrice +
+                ", services=" + services +
+                ", salon=" + salon +
+                ", type=" + type +
+                ", user=" + user +
+                '}';
+    }
 }

@@ -1,10 +1,12 @@
 package com.example.dbii.controller;
 
-import com.example.dbii.entity.Characteristic;
-import com.example.dbii.entity.Image;
-import com.example.dbii.entity.Salon;
+import com.example.dbii.entity.*;
 import com.example.dbii.service.CharacteristicService;
+import com.example.dbii.service.ImageService;
 import com.example.dbii.service.SalonService;
+import com.example.dbii.service.TypeService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -28,6 +31,9 @@ public class SalonController {
 
     @Autowired
     private CharacteristicService characteristicService;
+
+    @Autowired
+    private TypeService typeService;
 
     @GetMapping("/salon")
     public String salonView() { return "salonView"; }
@@ -81,19 +87,27 @@ public class SalonController {
 
     @PostMapping("/searchAvaible")
     public String searchAvaible(@RequestParam("schedule") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                                @RequestParam("selectedType") Long typeId,
+                                HttpSession session,
                                 Model model) {
+
+        Type selectedType = typeService.getTypeById(typeId);
+        model.addAttribute("selectedType", selectedType);
+        session.setAttribute("selectedType", selectedType);
+
+        model.addAttribute("types", typeService.getAllTypes());
+
         if (date.isBefore(LocalDate.now())) {
             model.addAttribute("errorDate","La fecha no es válida");
             return "catalogView";
         }
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM 'de' yyyy", Locale.forLanguageTag("es-ES"));
         String formattedDate = date.format(dateFormatter);
-        Image image = new Image();
-        image.setUrl("https://i.imgur.com/QYWAcXk.jpeg");
+
         List<Salon> salons = salonService.getAvailableSalons(date);
-        model.addAttribute("ddmmaa", date);
+
+        model.addAttribute("date", date);
         model.addAttribute("researchName", formattedDate);
-        model.addAttribute("image", image);
         model.addAttribute("salons", salons);
         return "catalogView";
     }
@@ -103,4 +117,34 @@ public class SalonController {
         salonService.deleteSalon(id);
         return "redirect:/salon";
     }
+
+    @GetMapping("/salon-evento-mas-comun")
+    public String mostrarSalonYEventoMasComun(
+            @RequestParam(value = "fechaInicio", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio,
+            @RequestParam(value = "fechaFin", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin,
+            Model model) {
+
+        if (fechaInicio == null || fechaFin == null) {
+            model.addAttribute("resultado", "Por favor, selecciona un rango de fechas.");
+        } else {
+            String resultado = salonService.getSalonYEventoMasComun(fechaInicio, fechaFin);
+            model.addAttribute("resultado", resultado);
+        }
+        return "salon-evento-mas-comun";
+    }
+
+    @PostMapping("/setSalon")
+    public String setSalon(@RequestParam("id") Long id,
+                           @RequestParam("name") String name,
+                           @RequestParam("location") String location,
+                           @RequestParam("maxCapacity") Long maxCapacity,
+                           Model model) {
+        Salon updatedSalon = salonService.updateSalon(id, name, location, maxCapacity);
+        if (updatedSalon != null) {
+            return "redirect:/salon";
+        }
+        model.addAttribute("errorAdd", "Error al actualizar el salón");
+        return "updateSalon";
+    }
+
 }

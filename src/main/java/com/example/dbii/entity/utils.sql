@@ -154,46 +154,29 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE TRIGGER reservation_price_auto
-AFTER INSERT OR DELETE OR UPDATE ON RESERVATION_SERVICE
+CREATE OR REPLACE TRIGGER reservation_package_price_auto
+AFTER INSERT OR DELETE ON RESERVATION
 FOR EACH ROW
 DECLARE
-    v_service_price NUMBER;
+    v_package_price NUMBER := 0;
 BEGIN
     IF INSERTING THEN
-        SELECT service_price INTO v_service_price
-        FROM SERVICE
-        WHERE service_id = :NEW.service_id;
+        SELECT pack_price INTO v_package_price
+        FROM PACK
+        WHERE pack_id = :NEW.pack_id;
 
         UPDATE RESERVATION
-        SET reservation_price = reservation_price + (v_service_price * 0.9)
+        SET reservation_price = reservation_price + v_package_price
         WHERE reservation_id = :NEW.reservation_id;
 
     ELSIF DELETING THEN
-        SELECT service_price INTO v_service_price
-        FROM SERVICE
-        WHERE service_id = :OLD.service_id;
+        SELECT pack_price INTO v_package_price
+        FROM PACK
+        WHERE pack_id = :OLD.pack_id;
 
         UPDATE RESERVATION
-        SET reservation_price = reservation_price - (v_service_price * 0.9)
+        SET reservation_price = reservation_price - v_package_price
         WHERE reservation_id = :OLD.reservation_id;
-
-    ELSIF UPDATING THEN
-        SELECT service_price INTO v_service_price
-        FROM SERVICE
-        WHERE service_id = :OLD.service_id;
-
-        UPDATE RESERVATION
-        SET reservation_price = reservation_price - (v_service_price * 0.9)
-        WHERE reservation_id = :OLD.reservation_id;
-
-        SELECT service_price INTO v_service_price
-        FROM SERVICE
-        WHERE service_id = :NEW.service_id;
-
-        UPDATE RESERVATION
-        SET reservation_price = reservation_price + (v_service_price * 0.9)
-        WHERE reservation_id = :NEW.reservation_id;
     END IF;
 END;
 /
@@ -321,5 +304,106 @@ BEGIN
     FETCH FIRST 1 ROWS ONLY;
 
     RETURN v_resultado;
+END;
+/
+
+CREATE OR REPLACE TRIGGER reservation_service_price_auto
+AFTER INSERT OR DELETE ON RESERVATION_SERVICE
+FOR EACH ROW
+DECLARE
+    v_service_price NUMBER := 0;
+BEGIN
+    IF INSERTING THEN
+        SELECT service_price INTO v_service_price
+        FROM SERVICE
+        WHERE service_id = :NEW.service_id;
+
+        UPDATE RESERVATION
+        SET reservation_price = reservation_price + v_service_price
+        WHERE reservation_id = :NEW.reservation_id;
+
+    ELSIF DELETING THEN
+        SELECT service_price INTO v_service_price
+        FROM SERVICE
+        WHERE service_id = :OLD.service_id;
+
+        UPDATE RESERVATION
+        SET reservation_price = reservation_price - v_service_price
+        WHERE reservation_id = :OLD.reservation_id;
+    END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER reservation_price_auto
+AFTER UPDATE OF pack_id ON RESERVATION
+FOR EACH ROW
+DECLARE
+    v_pack_price NUMBER := 0;
+BEGIN
+    IF :OLD.pack_id IS NOT NULL THEN
+        BEGIN
+            SELECT pack_price INTO v_pack_price
+            FROM PACK
+            WHERE pack_id = :OLD.pack_id;
+
+            UPDATE RESERVATION
+            SET reservation_price = reservation_price - v_pack_price
+            WHERE reservation_id = :OLD.reservation_id;
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                NULL;
+        END;
+    END IF;
+
+    IF :NEW.pack_id IS NOT NULL THEN
+        BEGIN
+            SELECT pack_price INTO v_pack_price
+            FROM PACK
+            WHERE pack_id = :NEW.pack_id;
+
+            UPDATE RESERVATION
+            SET reservation_price = reservation_price + v_pack_price
+            WHERE reservation_id = :NEW.reservation_id;
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                NULL;
+        END;
+    END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER reservation_price_auto
+BEFORE UPDATE OF pack_id ON RESERVATION
+FOR EACH ROW
+DECLARE
+    v_old_pack_price NUMBER := 0;
+    v_new_pack_price NUMBER := 0;
+BEGIN
+    -- Si había un pack asociado previamente, obtenemos su precio
+    IF :OLD.pack_id IS NOT NULL THEN
+        BEGIN
+            SELECT pack_price INTO v_old_pack_price
+            FROM PACK
+            WHERE pack_id = :OLD.pack_id;
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                v_old_pack_price := 0;
+        END;
+    END IF;
+
+    -- Si hay un nuevo pack asociado, obtenemos su precio
+    IF :NEW.pack_id IS NOT NULL THEN
+        BEGIN
+            SELECT pack_price INTO v_new_pack_price
+            FROM PACK
+            WHERE pack_id = :NEW.pack_id;
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                v_new_pack_price := 0;
+        END;
+    END IF;
+
+    -- Actualizamos el precio de la reserva
+    :NEW.reservation_price := :OLD.reservation_price - v_old_pack_price + v_new_pack_price;
 END;
 /

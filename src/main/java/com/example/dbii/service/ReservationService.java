@@ -1,15 +1,16 @@
 package com.example.dbii.service;
 
-import com.example.dbii.entity.Reservation;
-import com.example.dbii.entity.Salon;
-import com.example.dbii.entity.UserE;
+import com.example.dbii.entity.*;
 import com.example.dbii.repository.ReservationRepository;
 import com.example.dbii.repository.SalonRepository;
+import com.example.dbii.repository.TypeRepository;
 import com.example.dbii.repository.UserERepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class ReservationService {
@@ -23,17 +24,20 @@ public class ReservationService {
     @Autowired
     private UserERepository userERepository;
 
+    @Autowired
+    private TypeRepository typeRepository;
+
     @Transactional
-    public Long makeReservation(Long id, LocalDate dma, String email) {
+    public Reservation makeReservation(Salon salon, LocalDate dma, UserE user, Type type) {
         Reservation reservation = new Reservation();
-        UserE user = userERepository.findByEmail(email);
-        Salon salon = salonRepository.findById(id).orElse(null);
-        reservation.setSalon(salon);
         reservation.setReservationDate(dma);
-        reservation.setUser(user);
+        reservation.setReservationPrice(0.0);
         reservation.setReservationState(-1L);
+        reservation.setSalon(salon);
+        reservation.setType(type);
+        reservation.setUser(user);
         reservationRepository.save(reservation);
-        return reservation.getId();
+        return reservation;
     }
 
     public Reservation getReservationById(Long id) {
@@ -41,16 +45,24 @@ public class ReservationService {
     }
 
     @Transactional
-    public void updateStatus(Long id) {
+    public void inProcess(Long id) {
         Reservation reservation = reservationRepository.findById(id).orElse(null);
         reservation.setReservationState(0L);
         reservationRepository.save(reservation);
     }
 
-    @Transactional
+    public List<Reservation> findReservationsByUser(UserE user) {
+        return reservationRepository.findReservationsForUser(user);
+    }
+
+    public List<Reservation> findAllReservations() {
+        return reservationRepository.findAll();
+    }
+
+    /*@Transactional
     public void confirmReservation(Long id) {
         Reservation reservation = reservationRepository.findById(id).orElse(null);
         reservation.setReservationState(1L);
         reservationRepository.save(reservation);
-    }
+    }*/
 }

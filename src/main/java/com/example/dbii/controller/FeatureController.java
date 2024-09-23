@@ -4,6 +4,7 @@ import com.example.dbii.service.CharacteristicService;
 import com.example.dbii.service.SalonFeatureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -33,5 +34,12 @@ public class FeatureController {
                                 @RequestParam("characteristicId") Long characteristicId) {
         salonCharacteristicService.removeFeatureFromSalon(salonId, characteristicId);
         return "redirect:/updateSalon/" + salonId;
+    }
+
+    @GetMapping("/caracteristica-recurrente")
+    public String mostrarCaracteristicaRecurrente(Model model) {
+        String caracteristica = characteristicService.mostCurrencyFeature();
+        model.addAttribute("caracteristica", caracteristica);
+        return "caracteristica-recurrente";
     }
 }

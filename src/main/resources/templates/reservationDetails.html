@@ -65,7 +65,7 @@
                         <option th:each="pack:${packs}"
                                 th:value="${pack.id}"
                                 th:text="${pack.packName}"
-                                th:selected="${selectedPack != null and selectedPack.id == pack.id}">
+                                th:selected="${selectedPack != null && selectedPack.id == pack.id}">
                         </option>
                     </select>
                 </div>
@@ -113,7 +113,8 @@
                     <button type="submit" name="action" value="info" class="btn btn-primary">Info</button>
                 </div>
             </form>
-            <div th:if="${selectedService != null}" class="centroide_col">
+            <br>
+            <div th:if="${selectedService != null}" class="centroide_col info-box">
                 <br>
                 <p th:text="'Información del servicio '+${selectedService.serviceName}"></p>
                 <br>
@@ -143,10 +144,8 @@
                     <div class="notiborderglow"></div>
                     <p th:text="${reservation.pack.packName}" class="notititle"></p>
                     <p th:text="${reservation.pack.packPrice}" class="notibody"></p>
-                    <form th:action="@{/removePack}" method="post" class="notibody">
-                        <input type="hidden" name="packId" th:value="${reservation.pack.id}">
-                        <input type="hidden" name="reservationId" th:value="${reservation.id}">
-                        <button type="submit" class="notibody breath danger centroide_col">Eliminar</button>
+                    <form th:action="@{/removePack}" method="post" class="notibody fb">
+                        <button type="submit" class="danger">Eliminar</button>
                     </form>
                 </div>
             </div>
@@ -154,21 +153,20 @@
         <div class="container mt-4">
             <h2 class="resultText">Servicios seleccionados: </h2>
             <div class="results-container">
-                <div th:if="${#lists.isEmpty(reservation.services)}">
+                <div th:if="${reservation.services.isEmpty()}">
                     <br>
                     <p class="error">No hay servicios en la reserva</p>
                 </div>
-                <div th:if="${!#lists.isEmpty(reservation.services)}">
+                <div th:if="${!reservation.services.isEmpty()}">
                     <div th:each="service:${reservation.services}" class="notification">
                         <div class="notiglow"></div>
                         <div class="notiborderglow"></div>
                         <p th:text="${service.serviceName}" class="notititle"></p>
                         <p th:text="${service.serviceDescription}" class="notibody"></p>
                         <p th:text="${service.servicePrice}" class="notibody"></p>
-                        <form th:action="@{/deleteServiceReservation}" method="post" class="notibody">
+                        <form th:action="@{/deleteServiceReservation}" method="post" class="notibody fb">
                             <input type="hidden" name="serviceId" th:value="${service.id}">
-                            <input type="hidden" name="reservationId" th:value="${reservation.id}">
-                            <button type="submit" class="notibody breath danger centroide_col">Eliminar</button>
+                            <button type="submit" class="notibody danger">Eliminar</button>
                         </form>
                     </div>
                 </div>
@@ -176,14 +174,15 @@
         </div>
     </div>
 </div>
-
-
+<br>
 <div>
-    <form th:action="@{/reservar}" method="post">
+    <form th:action="@{/makeReservation}" method="post" class="centroide_col">
         <div class="buttCont">
+            <input type="hidden" name="reserveId" th:value="${reservation.id}">
             <button type="submit" class="button-35" role="button">Reservar ya!</button>
         </div>
     </form>
+</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
